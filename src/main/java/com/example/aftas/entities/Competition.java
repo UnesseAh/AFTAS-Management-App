@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,12 +16,14 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor @Builder
 @Entity
 @Table(name = "competitions")
 public class Competition {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String code;
     private LocalDate date;
     private LocalTime startTime;
@@ -27,5 +31,8 @@ public class Competition {
     private Integer numberOfParticipants;
     private String location;
     private Double amount;
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "competition")
+    private List<Hunting> huntingList;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "competition")
+    private List<Ranking> rankings;
 }

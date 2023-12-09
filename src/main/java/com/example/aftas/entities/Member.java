@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import lombok.Setter;
 import lombok.Builder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor @Builder
 @Entity @Table(name = "members")
@@ -25,4 +28,8 @@ public class Member {
     private String nationality;
     private IdentityDocumentType identityDocument;
     private String identityNumber;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+    private List<Hunting> huntingList;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+    private List<Ranking> rankings;
 }
