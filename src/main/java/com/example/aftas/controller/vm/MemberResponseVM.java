@@ -6,7 +6,7 @@ import com.example.aftas.entities.enums.IdentityDocumentType;
 import java.time.LocalDate;
 
 public record MemberResponseVM(
-        Integer MEMBER_NUMBER,
+        Long MEMBER_NUMBER,
         String FIRST_NAME,
         String LAST_NAME,
         LocalDate ACCESSION_DATE,

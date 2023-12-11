@@ -1,29 +1,27 @@
 package com.example.aftas.entities;
 
 import com.example.aftas.entities.enums.IdentityDocumentType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.EnumType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.Builder;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor @Builder
+@EntityListeners({AuditingEntityListener.class})
 @Entity @Table(name = "members")
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer number;
+    private Long number;
     private String firstName;
     private String lastName;
     private LocalDate accessionDate;
@@ -31,6 +29,7 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private IdentityDocumentType identityDocument;
     private String identityNumber;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     private List<Hunting> huntingList;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
