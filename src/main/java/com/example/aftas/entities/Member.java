@@ -23,7 +23,7 @@ import java.util.List;
 @Entity @Table(name = "members")
 public class Member {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer memberNumber;
+    private Integer number;
     private String firstName;
     private String lastName;
     private LocalDate accessionDate;

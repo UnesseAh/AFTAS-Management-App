@@ -24,7 +24,7 @@ public record MemberRequestVM(
 ) {
         public Member toMember(){
                 return new Member().builder()
-                        .memberNumber(memberNumber)
+                        .number(memberNumber)
                         .firstName(firstName)
                         .lastName(lastName)
                         .accessionDate(accessionDate)
