@@ -21,8 +21,7 @@ import java.util.List;
 @Entity
 @Table(name = "competitions")
 public class Competition {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Id
     private String code;
     private LocalDate date;
     private LocalTime startTime;

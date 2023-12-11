@@ -1,6 +1,5 @@
 package com.example.aftas.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -27,6 +26,5 @@ public class Fish {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "fish")
     private List<Hunting> huntingList;
     @ManyToOne
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Level level;
 }
