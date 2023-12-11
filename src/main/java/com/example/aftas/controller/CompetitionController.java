@@ -8,10 +8,10 @@ import com.example.aftas.service.interfaces.CompetitionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -27,5 +27,13 @@ public class CompetitionController {
                 CompetitionResponseVM.fromCompetition(competition),
                 "Competition created successfully");
 
+    }
+
+    @GetMapping
+    public ResponseEntity getAllCompetitions(){
+        List<Competition> competitionList = competitionService.getAllCompetitions();
+        List<CompetitionResponseVM> competitionResponseVMS = new ArrayList<>();
+        competitionList.forEach(competition -> competitionResponseVMS.add(CompetitionResponseVM.fromCompetition(competition)));
+        return ResponseMessage.ok(competitionResponseVMS, "All competitions") ;
     }
 }

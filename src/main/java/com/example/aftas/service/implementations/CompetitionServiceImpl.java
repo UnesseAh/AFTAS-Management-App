@@ -28,8 +28,8 @@ public class CompetitionServiceImpl implements CompetitionService {
     public String generateCompetitionCode(Competition competition) {
         String competitionCode = MessageFormat.format(
                 "{0}-{1}",
-                competition.getLocation().substring(0,4),
-                RandomStringUtils.randomAlphanumeric(5));
+                competition.getLocation().substring(0,4).toLowerCase(),
+                competition.getDate());
         return competitionCode;
     }
 
@@ -40,7 +40,7 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public List<Competition> getAllCompetitions() {
-        return null;
+        return competitionRepository.findAll();
     }
 
     @Override
