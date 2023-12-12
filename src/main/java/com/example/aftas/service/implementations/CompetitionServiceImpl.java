@@ -1,19 +1,15 @@
 package com.example.aftas.service.implementations;
 
 import com.example.aftas.entities.Competition;
+import com.example.aftas.handler.exception.ResourceNotFoundException;
 import com.example.aftas.repository.CompetitionRepository;
 import com.example.aftas.service.interfaces.CompetitionService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.text.MessageFormat;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -47,8 +43,12 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public Competition getCompetitionById(Long id) {
-        return null;
+    public Competition findCompetitionByCode(String code) {
+        Optional<Competition> competition = competitionRepository.findCompetitionByCodeContainsIgnoreCase(code);
+        if (competition.isEmpty()){
+            throw new ResourceNotFoundException("Competition with the code (" + code + ") doesn't exist");
+        }
+        return competition.get();
     }
 
     @Override

@@ -38,4 +38,9 @@ public class CompetitionController {
         competitionList.forEach(competition -> competitionResponseVMS.add(CompetitionResponseVM.fromCompetition(competition)));
         return ResponseMessage.ok(competitionResponseVMS, "Competitions returned successfully") ;
     }
+
+    @GetMapping("/{code}")
+    public ResponseEntity getCompetition(@PathVariable String code){
+        return ResponseMessage.ok(competitionService.findCompetitionByCode(code), "Competition is found");
+    }
 }

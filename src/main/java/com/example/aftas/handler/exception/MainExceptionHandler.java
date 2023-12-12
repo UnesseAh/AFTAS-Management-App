@@ -13,6 +13,13 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class MainExceptionHandler {
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity resourceNotFoundException(ResourceNotFoundException ex){
+        HashMap<String, String> errorMessage = new HashMap<>();
+        errorMessage.put("error", ex.getMessage());
+        return new  ResponseEntity<>(errorMessage,HttpStatus.NOT_FOUND);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<?> dataNotValid(MethodArgumentNotValidException ex){
         HashMap<String, String> errorsMessage = new HashMap<>();
@@ -31,11 +38,11 @@ public class MainExceptionHandler {
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseMessage> globalExceptionHandler(Exception ex){
-        ResponseMessage message = new ResponseMessage(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                ex.getMessage());
-        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+//    @ExceptionHandler(Exception.class)
+//    public ResponseEntity<ResponseMessage> globalExceptionHandler(Exception ex){
+//        ResponseMessage message = new ResponseMessage(
+//                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+//                ex.getMessage());
+//        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+//    }
 }

@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/members")
@@ -23,5 +25,10 @@ public class MemberController {
         return ResponseMessage.created(
                 MemberResponseVM.fromMember(member),
                 "Member created successfully!");
+    }
+
+    @GetMapping("/{id}")
+    public Optional<Member> getMemberById(@PathVariable Long id){
+        return memberService.getMemberById(id);
     }
 }

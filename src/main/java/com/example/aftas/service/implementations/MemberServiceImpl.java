@@ -1,17 +1,15 @@
 package com.example.aftas.service.implementations;
 
 import com.example.aftas.entities.Member;
+import com.example.aftas.handler.exception.ResourceNotFoundException;
 import com.example.aftas.repository.MemberRepository;
 import com.example.aftas.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Component;
 
-import java.nio.ByteBuffer;
 import java.util.List;
-import java.util.UUID;
-
-import static java.util.stream.DoubleStream.concat;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -32,8 +30,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member getMemberById(Long id) {
-        return null;
+    public Optional<Member> getMemberById(Long id) {
+         Optional<Member> member = memberRepository.findById(id);
+         if (member.isEmpty()){
+             throw new ResourceNotFoundException("Member not found");
+         }
+         return member;
     }
 
     @Override
