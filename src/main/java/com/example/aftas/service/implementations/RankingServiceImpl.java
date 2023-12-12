@@ -1,5 +1,6 @@
 package com.example.aftas.service.implementations;
 
+import com.example.aftas.entities.Competition;
 import com.example.aftas.entities.Member;
 import com.example.aftas.entities.Ranking;
 import com.example.aftas.handler.exception.ResourceNotFoundException;
@@ -22,8 +23,9 @@ public class RankingServiceImpl implements RankingService {
 
 
     @Override
-    public Ranking registerMemberInACompetition(Long memberId, String competitionId) {
-        Optional<Member> member = memberService.getMemberById(memberId);
+    public Ranking registerMemberInACompetition(Long memberId, String competitionCode) {
+        Member member = memberService.getMemberById(memberId);
+        Competition competition = competitionService.findCompetitionByCode(competitionCode);
         return null;
     }
 }

@@ -28,7 +28,8 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Member> getMemberById(@PathVariable Long id){
-        return memberService.getMemberById(id);
+    public ResponseEntity getMemberById(@PathVariable Long id){
+        MemberResponseVM memberResponseVM = MemberResponseVM.fromMember(memberService.getMemberById(id));
+        return ResponseMessage.ok(memberResponseVM, "Member was found successfully");
     }
 }

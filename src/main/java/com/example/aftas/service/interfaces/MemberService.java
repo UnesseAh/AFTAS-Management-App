@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface MemberService {
     Member createMember(Member member);
     String generateMemberNumber(Member member);
-    Optional<Member> getMemberById(Long id);
+    Member getMemberById(Long id);
     List<Member> getAllMembers();
     Member updateMember(Long id, Member member);
     void deleteMember(Long id);

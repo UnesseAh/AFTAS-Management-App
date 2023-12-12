@@ -41,6 +41,7 @@ public class CompetitionController {
 
     @GetMapping("/{code}")
     public ResponseEntity getCompetition(@PathVariable String code){
-        return ResponseMessage.ok(competitionService.findCompetitionByCode(code), "Competition is found");
+        CompetitionResponseVM competitionResponseVM = CompetitionResponseVM.fromCompetition(competitionService.findCompetitionByCode(code));
+        return ResponseMessage.ok(competitionResponseVM, "Competition is found");
     }
 }
