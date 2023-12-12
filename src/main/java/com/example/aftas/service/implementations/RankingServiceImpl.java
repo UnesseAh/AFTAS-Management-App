@@ -26,7 +26,11 @@ public class RankingServiceImpl implements RankingService {
     public Ranking registerMemberInACompetition(Long memberId, String competitionCode) {
         Member member = memberService.getMemberById(memberId);
         Competition competition = competitionService.findCompetitionByCode(competitionCode);
-        Ranking ranking = new Ranking().builder()
+
+        checkIfMemberAlreadyEnrolledInACompetition(member, competition);
+
+        Ranking ranking = new Ranking()
+                .builder()
                 .member(member)
                 .competition(competition)
                 .score(0)
@@ -34,4 +38,14 @@ public class RankingServiceImpl implements RankingService {
                 .build();
         return rankingRepository.save(ranking);
     }
+
+    @Override
+    public void checkIfMemberAlreadyEnrolledInACompetition(Member member, Competition competition) {
+        Optional<Ranking> ranking = Optional.ofNullable(rankingRepository.findRankingByCompetitionAndMember(competition, member));
+        if (ranking.isPresent()){
+            throw new IllegalArgumentException("This member is already registered in this competition");
+        }
+    }
+
+
 }
