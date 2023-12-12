@@ -26,6 +26,12 @@ public class RankingServiceImpl implements RankingService {
     public Ranking registerMemberInACompetition(Long memberId, String competitionCode) {
         Member member = memberService.getMemberById(memberId);
         Competition competition = competitionService.findCompetitionByCode(competitionCode);
-        return null;
+        Ranking ranking = new Ranking().builder()
+                .member(member)
+                .competition(competition)
+                .score(0)
+                .rank(0)
+                .build();
+        return rankingRepository.save(ranking);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.aftas.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -31,7 +32,9 @@ public class Competition {
     private String location;
     private Double amount;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competition")
+    @JsonManagedReference
     private List<Hunting> huntingList;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competition")
+    @JsonManagedReference
     private List<Ranking> rankings;
 }
