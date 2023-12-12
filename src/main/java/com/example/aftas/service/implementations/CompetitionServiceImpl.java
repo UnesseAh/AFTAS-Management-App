@@ -8,8 +8,12 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -18,6 +22,12 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public Competition createCompetition(Competition competition) {
+        List<Competition> competitions = getAllCompetitions();
+        List<Competition> foundDate = competitions.stream()
+                .filter(c -> competition.getDate().equals(c.getDate())).toList();
+        if(!foundDate.isEmpty()){
+            throw new IllegalArgumentException("There is already a competition with  that date");
+        }
         String generatedCode = generateCompetitionCode(competition);
         competition.setCode(generatedCode);
         competition.setNumberOfParticipants(0);

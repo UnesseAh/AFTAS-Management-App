@@ -1,5 +1,6 @@
 package com.example.aftas.handler.exception;
 
+import com.example.aftas.handler.response.ResponseMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,4 +23,19 @@ public class MainExceptionHandler {
                 .collect(Collectors.toList());
         return new ResponseEntity<>(errorsMessage, HttpStatus.BAD_REQUEST);
     };
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity argumentNotValid(IllegalArgumentException ex){
+        HashMap<String, String> errorMessage = new HashMap<>();
+        errorMessage.put("error", ex.getMessage());
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ResponseMessage> globalExceptionHandler(Exception ex){
+        ResponseMessage message = new ResponseMessage(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                ex.getMessage());
+        return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

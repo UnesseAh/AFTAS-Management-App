@@ -26,14 +26,16 @@ public class CompetitionController {
         return ResponseMessage.created(
                 CompetitionResponseVM.fromCompetition(competition),
                 "Competition created successfully");
-
     }
 
     @GetMapping
     public ResponseEntity getAllCompetitions(){
         List<Competition> competitionList = competitionService.getAllCompetitions();
+        if (competitionList.isEmpty()){
+            return ResponseMessage.notFound("No competitions were found");
+        }
         List<CompetitionResponseVM> competitionResponseVMS = new ArrayList<>();
         competitionList.forEach(competition -> competitionResponseVMS.add(CompetitionResponseVM.fromCompetition(competition)));
-        return ResponseMessage.ok(competitionResponseVMS, "All competitions") ;
+        return ResponseMessage.ok(competitionResponseVMS, "Competitions returned successfully") ;
     }
 }
