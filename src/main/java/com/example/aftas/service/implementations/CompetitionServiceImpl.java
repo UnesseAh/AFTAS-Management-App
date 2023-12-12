@@ -28,6 +28,9 @@ public class CompetitionServiceImpl implements CompetitionService {
         if(!foundDate.isEmpty()){
             throw new IllegalArgumentException("There is already a competition with  that date");
         }
+        if(competition.getEndTime().isBefore(competition.getStartTime())){
+            throw new IllegalArgumentException("Competition end time must come after the start time");
+        }
         String generatedCode = generateCompetitionCode(competition);
         competition.setCode(generatedCode);
         competition.setNumberOfParticipants(0);
