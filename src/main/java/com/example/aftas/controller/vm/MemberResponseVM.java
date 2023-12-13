@@ -14,8 +14,8 @@ public record MemberResponseVM(
         LocalDate ACCESSION_DATE,
         String NATIONALITY,
         IdentityDocumentType IDENTITY_DOCUMENT_TYPE,
-        String IDENTITY_NUMBER,
-        List<Ranking> rankings
+        String IDENTITY_NUMBER
+//        List<Ranking> rankings
 ) {
     public static MemberResponseVM fromMember(Member member){
         return new MemberResponseVM(
@@ -25,8 +25,8 @@ public record MemberResponseVM(
                 member.getAccessionDate(),
                 member.getNationality(),
                 member.getIdentityDocument(),
-                member.getIdentityNumber(),
-                member.getRankings()
+                member.getIdentityNumber()
+//                member.getRankings()
         );
     }
 

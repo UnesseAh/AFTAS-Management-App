@@ -35,7 +35,7 @@ public class Member {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     @JsonManagedReference
     private List<Hunting> huntingList;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
-    @JsonManagedReference
-    private List<Ranking> rankings;
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
+//    @JsonManagedReference
+//    private List<Ranking> rankings;
 }

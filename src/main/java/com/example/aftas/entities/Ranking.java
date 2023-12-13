@@ -1,14 +1,10 @@
 package com.example.aftas.entities;
 
+import com.example.aftas.entities.embeddable.RankId;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,14 +15,16 @@ import lombok.Builder;
 @Entity @Table(name = "rankings")
 
 public class Ranking {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private RankId id;
     private Integer rank;
     private Integer score;
     @ManyToOne
-    @JsonBackReference
+//    @JsonBackReference
+    @MapsId("memberNumber")
     private Member member;
     @ManyToOne
-    @JsonBackReference
+//    @JsonBackReference
+    @MapsId("competitionCode")
     private Competition competition;
 }
