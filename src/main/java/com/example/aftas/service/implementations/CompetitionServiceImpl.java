@@ -9,6 +9,7 @@ import com.example.aftas.repository.CompetitionRepository;
 import com.example.aftas.repository.RankingRepository;
 import com.example.aftas.service.interfaces.CompetitionService;
 import com.example.aftas.service.interfaces.MemberService;
+import com.example.aftas.service.interfaces.RankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,12 +18,14 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @RequiredArgsConstructor
 public class CompetitionServiceImpl implements CompetitionService {
     private final CompetitionRepository competitionRepository;
     private final RankingRepository rankingRepository;
+    private final RankingService rankingService;
     private final MemberService memberService;
 
 
@@ -104,10 +107,23 @@ public class CompetitionServiceImpl implements CompetitionService {
         }
     }
 
+
+    @Override
+    public List<Ranking> generateCompetitionRanks(String competitionCode) {
+        Competition competition = competitionRepository.findCompetitionByCode(competitionCode);
+        List<Ranking> sortedRankingsByCompetition = rankingService.getSortedRankingsByCompetition(competition);
+
+        AtomicInteger count = new AtomicInteger(0);
+        sortedRankingsByCompetition.forEach(ranking -> ranking.setRank(count.incrementAndGet()));
+
+        return rankingRepository.saveAll(sortedRankingsByCompetition);
+    }
+
     @Override
     public List<Competition> getAllCompetitions() {
         return competitionRepository.findAll();
     }
+
 
     @Override
     public Competition updateCompetition(Long id, Competition competition) {

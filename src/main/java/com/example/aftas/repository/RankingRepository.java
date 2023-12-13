@@ -7,7 +7,10 @@ import com.example.aftas.entities.embeddable.RankId;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface RankingRepository extends JpaRepository<Ranking, RankId> {
     Ranking findRankingByCompetitionAndMember(Competition competition, Member member);
+    List<Ranking> findRankingsByCompetitionOrderByScoreDesc(Competition competition);
 }

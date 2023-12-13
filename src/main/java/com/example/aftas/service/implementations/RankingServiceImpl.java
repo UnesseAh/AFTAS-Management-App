@@ -9,6 +9,8 @@ import com.example.aftas.service.interfaces.RankingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 @RequiredArgsConstructor
@@ -20,5 +22,10 @@ public class RankingServiceImpl implements RankingService {
         Ranking ranking = rankingRepository.findRankingByCompetitionAndMember(competition,member);
         ranking.setScore(ranking.getScore() + fishScore);
         rankingRepository.save(ranking);
+    }
+
+    @Override
+    public List<Ranking> getSortedRankingsByCompetition(Competition competition) {
+        return rankingRepository.findRankingsByCompetitionOrderByScoreDesc(competition);
     }
 }

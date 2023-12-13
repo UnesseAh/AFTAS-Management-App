@@ -5,6 +5,7 @@ import com.example.aftas.controller.vm.CompetitionResponseVM;
 import com.example.aftas.controller.vm.MemberToCompetitionRequestVM;
 import com.example.aftas.controller.vm.MemberToCompetitionResponseVM;
 import com.example.aftas.entities.Competition;
+import com.example.aftas.entities.Ranking;
 import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.CompetitionService;
 import jakarta.validation.Valid;
@@ -53,5 +54,10 @@ public class CompetitionController {
     public ResponseEntity getCompetition(@PathVariable String code){
         CompetitionResponseVM competitionResponseVM = CompetitionResponseVM.fromCompetition(competitionService.findCompetitionByCode(code));
         return ResponseMessage.ok(competitionResponseVM, "Competition is found");
+    }
+    @PostMapping("/{competition}")
+    public ResponseEntity generateCompetitionRanking(@PathVariable("competition") String competition){
+        List<Ranking> generatedRankings = competitionService.generateCompetitionRanks(competition);
+        return ResponseMessage.ok(generatedRankings, "Generated Rankings");
     }
 }
