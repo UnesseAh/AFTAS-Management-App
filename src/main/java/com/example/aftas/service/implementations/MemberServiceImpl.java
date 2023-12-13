@@ -30,6 +30,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public Member getMemberByNumber(Long number) {
+        return memberRepository.findMemberByNumber(number);
+    }
+
+    @Override
     public Member getMemberById(Long id) {
          Optional<Member> member = memberRepository.findById(id);
          if (member.isEmpty()){
@@ -37,6 +42,7 @@ public class MemberServiceImpl implements MemberService {
          }
          return member.get();
     }
+
 
     @Override
     public List<Member> getAllMembers() {

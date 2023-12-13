@@ -9,4 +9,5 @@ import java.util.Optional;
 @Repository
 public interface CompetitionRepository extends JpaRepository<Competition, Long> {
     Optional<Competition> findCompetitionByCodeContainsIgnoreCase(String code);
+    Competition findCompetitionByCode(String code);
 }

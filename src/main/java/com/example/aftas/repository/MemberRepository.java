@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Component
 public interface MemberRepository extends JpaRepository<Member, Long> {
+    Member findMemberByNumber(Long number);
 }

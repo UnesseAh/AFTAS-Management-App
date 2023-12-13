@@ -1,8 +1,11 @@
 package com.example.aftas.controller;
 
-import com.example.aftas.controller.vm.HuntingRequestVM;
+import com.example.aftas.DTO.HuntingDTO;
+import com.example.aftas.controller.vm.HuntingResponseVM;
 import com.example.aftas.entities.Hunting;
+import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.HuntingService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +21,9 @@ public class HuntingController {
     }
 
     @PostMapping
-    public Hunting createHunting(@RequestBody HuntingRequestVM huntingRequestVM){
-//        Hunting hunting = huntingRequestVM.toHunting();
-//
-//        return huntingService.createHunting(huntingRequestVM);
-        return null;
+    public ResponseEntity createHunting(@RequestBody HuntingDTO huntingDTO){
+        Hunting hunting = huntingService.createHunting(huntingDTO);
+        HuntingResponseVM huntingResponseVM = HuntingResponseVM.fromHunting(hunting);
+        return ResponseMessage.created(huntingResponseVM, "Hunting saved successfully");
     }
 }
