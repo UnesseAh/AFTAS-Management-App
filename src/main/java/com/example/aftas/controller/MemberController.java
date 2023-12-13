@@ -2,6 +2,8 @@ package com.example.aftas.controller;
 
 import com.example.aftas.controller.vm.MemberRequestVM;
 import com.example.aftas.controller.vm.MemberResponseVM;
+import com.example.aftas.controller.vm.MemberToCompetitionRequestVM;
+import com.example.aftas.controller.vm.MemberToCompetitionResponseVM;
 import com.example.aftas.entities.Member;
 import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.MemberService;
@@ -32,4 +34,6 @@ public class MemberController {
         MemberResponseVM memberResponseVM = MemberResponseVM.fromMember(memberService.getMemberById(id));
         return ResponseMessage.ok(memberResponseVM, "Member was found successfully");
     }
+
+
 }

@@ -7,7 +7,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface RankingService {
-    Ranking registerMemberInACompetition(Long memberId, String competitionId);
-    void checkIfMemberAlreadyEnrolledInACompetition(Member member, Competition competition);
-    void checkCompetitionDateIsNotOver(Competition competition);
+
 }

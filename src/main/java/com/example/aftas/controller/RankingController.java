@@ -18,11 +18,5 @@ import org.springframework.web.bind.annotation.RestController;
 public class RankingController {
     private final RankingService rankingService;
 
-    @PostMapping("/assign-member")
-    public ResponseEntity registerMemberInACompetition(@RequestBody MemberToCompetitionRequestVM memberToCompetitionRequestVM){
-        Long memberId = memberToCompetitionRequestVM.memberId();
-        String competitionId = memberToCompetitionRequestVM.competitionCode();
-        MemberToCompetitionResponseVM memberToCompetitionResponseVM = MemberToCompetitionResponseVM.fromRanking(rankingService.registerMemberInACompetition(memberId, competitionId));
-        return ResponseMessage.created(memberToCompetitionResponseVM, "Member assigned successfully");
-    }
+
 }

@@ -23,7 +23,7 @@ public class Level {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String code;
+    private Integer code;
     private String description;
     private Integer points;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "level")

@@ -5,10 +5,10 @@ import lombok.*;
 
 import java.io.Serializable;
 
-//@AllArgsConstructor
-//@NoArgsConstructor
-//@Builder
-//@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Data
 @Embeddable
 public class RankId implements Serializable {
 

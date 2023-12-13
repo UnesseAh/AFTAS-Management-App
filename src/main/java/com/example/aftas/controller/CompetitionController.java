@@ -2,6 +2,8 @@ package com.example.aftas.controller;
 
 import com.example.aftas.controller.vm.CompetitionRequestVM;
 import com.example.aftas.controller.vm.CompetitionResponseVM;
+import com.example.aftas.controller.vm.MemberToCompetitionRequestVM;
+import com.example.aftas.controller.vm.MemberToCompetitionResponseVM;
 import com.example.aftas.entities.Competition;
 import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.CompetitionService;
@@ -26,6 +28,14 @@ public class CompetitionController {
         return ResponseMessage.created(
                 CompetitionResponseVM.fromCompetition(competition),
                 "Competition created successfully");
+    }
+
+    @PostMapping("/assign-member-in-competition")
+    public ResponseEntity registerMemberInACompetition(@RequestBody MemberToCompetitionRequestVM memberToCompetitionRequestVM){
+        Long memberId = memberToCompetitionRequestVM.memberId();
+        String competitionId = memberToCompetitionRequestVM.competitionCode();
+        MemberToCompetitionResponseVM memberToCompetitionResponseVM = MemberToCompetitionResponseVM.fromRanking(competitionService.registerMemberInACompetition(memberId, competitionId));
+        return ResponseMessage.created(memberToCompetitionResponseVM, "Member assigned successfully");
     }
 
     @GetMapping
