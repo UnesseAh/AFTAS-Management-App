@@ -16,6 +16,7 @@ import java.util.Optional;
 
 @Component
 public class HuntingServiceImpl implements HuntingService {
+
     private final HuntingRepository huntingRepository;
     private final CompetitionService competitionService;
     private final MemberService memberService;
@@ -28,9 +29,9 @@ public class HuntingServiceImpl implements HuntingService {
         this.fishService = fishService;
     }
 
-
     @Override
     public Hunting createHunting(HuntingDTO huntingDTO) {
+
         Competition competition = competitionService.findCompetitionByCode(huntingDTO.competitionCode());
         Member member = memberService.getMemberByNumber(huntingDTO.memberNumber());
         Fish fish = fishService.getFishByName(huntingDTO.fishName());
@@ -39,8 +40,7 @@ public class HuntingServiceImpl implements HuntingService {
             throw new IllegalArgumentException("You fish's weight is not valid");
         }
 
-        Optional<Hunting> foundHunting = checkHunting(competition, member, fish);
-
+        Optional<Hunting> foundHunting = huntingRepository.findHuntingByCompetitionAndMemberAndFish(competition, member, fish);
 
         if (foundHunting.isPresent()){
             Hunting updatedHunting = foundHunting.get();
@@ -53,14 +53,7 @@ public class HuntingServiceImpl implements HuntingService {
                     .member(member)
                     .numberOfFish(0)
                     .build();
-
             return huntingRepository.save(hunting);
         }
-
-    }
-
-    @Override
-    public Optional<Hunting> checkHunting(Competition competition, Member member, Fish fish) {
-        return huntingRepository.findHuntingByCompetitionAndMemberAndFish(competition, member, fish);
     }
 }

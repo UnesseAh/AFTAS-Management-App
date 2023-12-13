@@ -12,5 +12,5 @@ import java.util.Optional;
 @Service
 public interface HuntingService {
     Hunting createHunting(HuntingDTO huntingDTO);
-    Optional<Hunting> checkHunting(Competition competition, Member member, Fish fish);
+//    Optional<Hunting> checkHunting(Competition competition, Member member, Fish fish);
 }
