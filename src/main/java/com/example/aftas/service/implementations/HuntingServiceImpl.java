@@ -6,10 +6,7 @@ import com.example.aftas.entities.Fish;
 import com.example.aftas.entities.Hunting;
 import com.example.aftas.entities.Member;
 import com.example.aftas.repository.HuntingRepository;
-import com.example.aftas.service.interfaces.CompetitionService;
-import com.example.aftas.service.interfaces.FishService;
-import com.example.aftas.service.interfaces.HuntingService;
-import com.example.aftas.service.interfaces.MemberService;
+import com.example.aftas.service.interfaces.*;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -21,13 +18,16 @@ public class HuntingServiceImpl implements HuntingService {
     private final CompetitionService competitionService;
     private final MemberService memberService;
     private final FishService fishService;
+    private final RankingService rankingService;
 
-    public HuntingServiceImpl(HuntingRepository huntingRepository, CompetitionService competitionService, MemberService memberService, FishService fishService) {
+    public HuntingServiceImpl(HuntingRepository huntingRepository, CompetitionService competitionService, MemberService memberService, FishService fishService, RankingService rankingService) {
         this.huntingRepository = huntingRepository;
         this.competitionService = competitionService;
         this.memberService = memberService;
         this.fishService = fishService;
+        this.rankingService = rankingService;
     }
+
 
     @Override
     public Hunting createHunting(HuntingDTO huntingDTO) {
@@ -37,23 +37,29 @@ public class HuntingServiceImpl implements HuntingService {
         Fish fish = fishService.getFishByName(huntingDTO.fishName());
 
         if(fish.getAverageWeight() > huntingDTO.weight()){
-            throw new IllegalArgumentException("You fish's weight is not valid");
+            throw new IllegalArgumentException("Your fish's weight is not valid");
         }
 
         Optional<Hunting> foundHunting = huntingRepository.findHuntingByCompetitionAndMemberAndFish(competition, member, fish);
+        Integer fishScore = fish.getLevel().getPoints();
 
         if (foundHunting.isPresent()){
             Hunting updatedHunting = foundHunting.get();
-            updatedHunting.setNumberOfFish(foundHunting.get().getNumberOfFish()+1);
+            updatedHunting.setNumberOfFish(foundHunting.get().getNumberOfFish() + 1);
+            rankingService.changeRankingScore(competition, member,fishScore);
             return huntingRepository.save(updatedHunting);
         }else {
             Hunting hunting = Hunting.builder()
                     .fish(fish)
                     .competition(competition)
                     .member(member)
-                    .numberOfFish(0)
+                    .numberOfFish(1)
                     .build();
+
+            rankingService.changeRankingScore(competition, member,fishScore);
+
             return huntingRepository.save(hunting);
         }
+
     }
 }

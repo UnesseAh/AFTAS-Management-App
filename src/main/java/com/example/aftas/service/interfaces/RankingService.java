@@ -8,4 +8,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface RankingService {
 
+    void changeRankingScore(Competition competition, Member member, Integer fishScore);
+
 }

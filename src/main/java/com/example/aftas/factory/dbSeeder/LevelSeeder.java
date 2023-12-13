@@ -1,8 +1,6 @@
 package com.example.aftas.factory.dbSeeder;
 
-import com.example.aftas.entities.Fish;
 import com.example.aftas.entities.Level;
-import com.example.aftas.repository.FishRepository;
 import com.example.aftas.repository.LevelRepository;
 import org.springframework.stereotype.Component;
 
