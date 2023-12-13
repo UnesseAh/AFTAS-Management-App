@@ -1,9 +1,6 @@
 package com.example.aftas.controller;
 
-import com.example.aftas.controller.vm.CompetitionRequestVM;
-import com.example.aftas.controller.vm.CompetitionResponseVM;
-import com.example.aftas.controller.vm.MemberToCompetitionRequestVM;
-import com.example.aftas.controller.vm.MemberToCompetitionResponseVM;
+import com.example.aftas.controller.vm.*;
 import com.example.aftas.entities.Competition;
 import com.example.aftas.entities.Ranking;
 import com.example.aftas.handler.response.ResponseMessage;
@@ -58,6 +55,8 @@ public class CompetitionController {
     @PostMapping("/{competition}")
     public ResponseEntity generateCompetitionRanking(@PathVariable("competition") String competition){
         List<Ranking> generatedRankings = competitionService.generateCompetitionRanks(competition);
-        return ResponseMessage.ok(generatedRankings, "Generated Rankings");
+        List<RankingsResponseVM> rankingsResponseVMS = new ArrayList<>();
+        generatedRankings.forEach(ranking -> rankingsResponseVMS.add(RankingsResponseVM.fromRanking(ranking)));
+        return ResponseMessage.ok(rankingsResponseVMS, "Generated Rankings");
     }
 }
