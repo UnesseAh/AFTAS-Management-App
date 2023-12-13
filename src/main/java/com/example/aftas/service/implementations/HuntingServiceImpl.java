@@ -12,6 +12,8 @@ import com.example.aftas.service.interfaces.HuntingService;
 import com.example.aftas.service.interfaces.MemberService;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
+
 @Component
 public class HuntingServiceImpl implements HuntingService {
     private final HuntingRepository huntingRepository;
@@ -32,17 +34,33 @@ public class HuntingServiceImpl implements HuntingService {
         Competition competition = competitionService.findCompetitionByCode(huntingDTO.competitionCode());
         Member member = memberService.getMemberByNumber(huntingDTO.memberNumber());
         Fish fish = fishService.getFishByName(huntingDTO.fishName());
+
         if(fish.getAverageWeight() > huntingDTO.weight()){
             throw new IllegalArgumentException("You fish's weight is not valid");
         }
 
-        Hunting hunting = Hunting.builder()
-                .fish(fish)
-                .competition(competition)
-                .member(member)
-                .numberOfFish(0)
-                .build();
+        Optional<Hunting> foundHunting = checkHunting(competition, member, fish);
 
-        return huntingRepository.save(hunting);
+
+        if (foundHunting.isPresent()){
+            Hunting updatedHunting = foundHunting.get();
+            updatedHunting.setNumberOfFish(foundHunting.get().getNumberOfFish()+1);
+            return huntingRepository.save(updatedHunting);
+        }else {
+            Hunting hunting = Hunting.builder()
+                    .fish(fish)
+                    .competition(competition)
+                    .member(member)
+                    .numberOfFish(0)
+                    .build();
+
+            return huntingRepository.save(hunting);
+        }
+
+    }
+
+    @Override
+    public Optional<Hunting> checkHunting(Competition competition, Member member, Fish fish) {
+        return huntingRepository.findHuntingByCompetitionAndMemberAndFish(competition, member, fish);
     }
 }
