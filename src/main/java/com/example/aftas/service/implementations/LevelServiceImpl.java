@@ -18,6 +18,14 @@ public class LevelServiceImpl implements LevelService {
 
     @Override
     public Level createLevel(Level level) {
+        List<Level> levels = getAllLevels();
+        levels.stream().forEach(lvl -> {
+            if (lvl.getCode() > level.getCode()){
+                if(lvl.getPoints() < level.getPoints()){
+                    throw new IllegalArgumentException("The points of this level should be less than " + lvl.getPoints());
+                };
+            };
+        });
         return levelRepository.save(level);
     }
 

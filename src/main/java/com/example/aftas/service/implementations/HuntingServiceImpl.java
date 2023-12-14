@@ -34,14 +34,14 @@ public class HuntingServiceImpl implements HuntingService {
 
         Competition competition = competitionService.findCompetitionByCode(huntingDTO.competitionCode());
         Member member = memberService.getMemberByNumber(huntingDTO.memberNumber());
-        Fish fish = fishService.getFishByName(huntingDTO.fishName());
+        Optional<Fish> fish = fishService.getFishByName(huntingDTO.fishName());
 
-        if(fish.getAverageWeight() > huntingDTO.weight()){
+        if(fish.get().getAverageWeight() > huntingDTO.weight()){
             throw new IllegalArgumentException("Your fish's weight is not valid");
         }
 
         Optional<Hunting> foundHunting = huntingRepository.findHuntingByCompetitionAndMemberAndFish(competition, member, fish);
-        Integer fishScore = fish.getLevel().getPoints();
+        Integer fishScore = fish.get().getLevel().getPoints();
 
         if (foundHunting.isPresent()){
             Hunting updatedHunting = foundHunting.get();
@@ -50,7 +50,7 @@ public class HuntingServiceImpl implements HuntingService {
             return huntingRepository.save(updatedHunting);
         }else {
             Hunting hunting = Hunting.builder()
-                    .fish(fish)
+                    .fish(fish.get())
                     .competition(competition)
                     .member(member)
                     .numberOfFish(1)
