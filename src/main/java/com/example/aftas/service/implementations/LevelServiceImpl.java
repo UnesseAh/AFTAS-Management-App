@@ -34,6 +34,11 @@ public class LevelServiceImpl implements LevelService {
     }
 
     @Override
+    public Optional<Level> findALevelByCode(Integer levelCode) {
+        return levelRepository.getLevelByCode(levelCode);
+    }
+
+    @Override
     public Level updateLevel(Long id, Level level) {
         Optional<Level> foundLevel = findALevel(id);
         if (foundLevel.isEmpty()){

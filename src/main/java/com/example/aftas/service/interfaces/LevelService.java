@@ -11,6 +11,7 @@ public interface LevelService {
     Level createLevel(Level level);
     List<Level> getAllLevels();
     Optional<Level> findALevel(Long id);
+    Optional<Level> findALevelByCode(Integer levelCode);
     Level updateLevel(Long id, Level level);
     void deleteLevel(Long id);
 }
