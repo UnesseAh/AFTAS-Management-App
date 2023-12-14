@@ -22,12 +22,16 @@ public class FishServiceImpl implements FishService {
     }
 
     @Override
-    public Fish getFishByName(String name) {
+    public Optional<Fish> getFishByName(String name) {
         return fishRepository.findFishByName(name);
     }
 
     @Override
     public Fish createFish(FishDTO fishDTO) {
+        Optional<Fish> foundFish = getFishByName(fishDTO.name());
+        if (foundFish.isPresent()){
+            throw new IllegalArgumentException("There is already a fish with this name");
+        }
         Optional<Level> level = levelService.findALevelByCode(fishDTO.LevelCode());
         if (level.isEmpty()){
             throw new IllegalArgumentException("There is no level with the code you provided");

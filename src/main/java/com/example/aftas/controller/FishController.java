@@ -2,7 +2,6 @@ package com.example.aftas.controller;
 
 import com.example.aftas.DTO.FishDTO;
 import com.example.aftas.controller.vm.FishResponseVM;
-import com.example.aftas.controller.vm.LevelResponseVM;
 import com.example.aftas.entities.Fish;
 import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.FishService;
