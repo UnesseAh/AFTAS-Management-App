@@ -36,6 +36,11 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public Optional<Member> searchForMember(String searchWord) {
+        return memberRepository.searchForAMember(searchWord);
+    }
+
+    @Override
     public Member getMemberById(Long id) {
          Optional<Member> member = memberRepository.findById(id);
          if (member.isEmpty()){

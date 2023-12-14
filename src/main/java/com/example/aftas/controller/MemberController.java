@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/v1/members")
 public class MemberController {
@@ -31,6 +33,15 @@ public class MemberController {
     public ResponseEntity getMemberById(@PathVariable Long id){
         MemberResponseVM memberResponseVM = MemberResponseVM.fromMember(memberService.getMemberById(id));
         return ResponseMessage.ok(memberResponseVM, "Member was found successfully");
+    }
+
+    @GetMapping("{/word}")
+    public ResponseEntity searchForMember(@PathVariable("word") String searchWord){
+        Optional<Member> member = memberService.searchForMember(searchWord);
+        if (member.isEmpty()){
+            throw new IllegalArgumentException("No member was found");
+        }
+        return ResponseMessage.ok(member, "Member was found");
     }
 
 

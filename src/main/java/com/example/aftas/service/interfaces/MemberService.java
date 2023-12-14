@@ -12,6 +12,7 @@ public interface MemberService {
     String generateMemberNumber(Member member);
     Member getMemberById(Long id);
     Member getMemberByNumber(Long number);
+    Optional<Member> searchForMember(String searchWord);
     List<Member> getAllMembers();
     Member updateMember(Long id, Member member);
     void deleteMember(Long id);
