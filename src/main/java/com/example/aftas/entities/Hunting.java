@@ -1,5 +1,6 @@
 package com.example.aftas.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -19,10 +20,13 @@ public class Hunting {
     private Long id;
     private Integer numberOfFish;
     @ManyToOne
+    @JsonBackReference
     private Fish fish;
     @ManyToOne
+    @JsonBackReference
     private Member member;
     @ManyToOne
+    @JsonBackReference
     private Competition competition;
 
 }

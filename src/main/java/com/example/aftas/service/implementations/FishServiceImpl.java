@@ -6,6 +6,8 @@ import com.example.aftas.entities.Level;
 import com.example.aftas.repository.FishRepository;
 import com.example.aftas.service.interfaces.FishService;
 import com.example.aftas.service.interfaces.LevelService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,8 +48,8 @@ public class FishServiceImpl implements FishService {
     }
 
     @Override
-    public List<Fish> getAllFishes() {
-        return fishRepository.findAll();
+    public Page<Fish> getAllFishes() {
+        return fishRepository.findAll(PageRequest.of(0,4));
     }
 
     @Override

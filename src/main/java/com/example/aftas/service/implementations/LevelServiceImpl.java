@@ -3,6 +3,8 @@ package com.example.aftas.service.implementations;
 import com.example.aftas.entities.Level;
 import com.example.aftas.repository.LevelRepository;
 import com.example.aftas.service.interfaces.LevelService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -19,7 +21,7 @@ public class LevelServiceImpl implements LevelService {
 
     @Override
     public Level createLevel(Level level) {
-        List<Level> levels = getAllLevels();
+        List<Level> levels = (List<Level>) getAllLevels();
         levels.stream().forEach(lvl -> {
             if (lvl.getCode() > level.getCode()){
                 if(lvl.getPoints() < level.getPoints()){
@@ -31,8 +33,8 @@ public class LevelServiceImpl implements LevelService {
     }
 
     @Override
-    public List<Level> getAllLevels() {
-        return levelRepository.findAll();
+    public Page<Level> getAllLevels() {
+        return levelRepository.findAll(PageRequest.of(0,5));
     }
 
     @Override

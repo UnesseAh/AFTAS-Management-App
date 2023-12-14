@@ -6,6 +6,8 @@ import com.example.aftas.repository.MemberRepository;
 import com.example.aftas.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -51,8 +53,8 @@ public class MemberServiceImpl implements MemberService {
 
 
     @Override
-    public List<Member> getAllMembers() {
-        return null;
+    public Page<Member> getAllMembers() {
+        return memberRepository.findAll(PageRequest.of(0,3));
     }
 
     @Override

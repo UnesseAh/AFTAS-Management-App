@@ -20,11 +20,11 @@ public class Ranking {
     private Integer rank;
     private Integer score;
     @ManyToOne
-//    @JsonBackReference
+    @JsonBackReference
     @MapsId("memberNumber")
     private Member member;
     @ManyToOne
-//    @JsonBackReference
+    @JsonBackReference
     @MapsId("competitionCode")
     private Competition competition;
 }

@@ -6,6 +6,7 @@ import com.example.aftas.entities.Ranking;
 import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.CompetitionService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,7 +42,7 @@ public class CompetitionController {
 
     @GetMapping
     public ResponseEntity getAllCompetitions(){
-        List<Competition> competitionList = competitionService.getAllCompetitions();
+        Page<Competition> competitionList = competitionService.getAllCompetitions();
         if (competitionList.isEmpty()){
             return ResponseMessage.notFound("No competitions were found");
         }
@@ -55,6 +56,7 @@ public class CompetitionController {
         CompetitionResponseVM competitionResponseVM = CompetitionResponseVM.fromCompetition(competitionService.findCompetitionByCode(code));
         return ResponseMessage.ok(competitionResponseVM, "Competition is found");
     }
+
     @PostMapping("/{competition}")
     public ResponseEntity generateCompetitionRanking(@PathVariable("competition") String competition){
         List<Ranking> generatedRankings = competitionService.generateCompetitionRanks(competition);

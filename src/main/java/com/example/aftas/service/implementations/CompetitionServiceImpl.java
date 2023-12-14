@@ -10,6 +10,8 @@ import com.example.aftas.repository.RankingRepository;
 import com.example.aftas.service.interfaces.CompetitionService;
 import com.example.aftas.service.interfaces.MemberService;
 import com.example.aftas.service.interfaces.RankingService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -34,10 +36,9 @@ public class CompetitionServiceImpl implements CompetitionService {
         this.memberService = memberService;
     }
 
-
     @Override
     public Competition createCompetition(Competition competition) {
-        List<Competition> competitions = getAllCompetitions();
+        Page<Competition> competitions = getAllCompetitions();
         List<Competition> foundDate = competitions.stream()
                 .filter(c -> competition.getDate().equals(c.getDate())).toList();
         if(!foundDate.isEmpty()){
@@ -54,11 +55,10 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public String generateCompetitionCode(Competition competition) {
-        String competitionCode = MessageFormat.format(
+        return MessageFormat.format(
                 "{0}-{1}",
                 competition.getLocation().substring(0,4).toLowerCase(),
                 competition.getDate());
-        return competitionCode;
     }
 
     @Override
@@ -69,9 +69,6 @@ public class CompetitionServiceImpl implements CompetitionService {
         }
         return competition.get();
     }
-
-
-
 
     @Override
     public Ranking registerMemberInACompetition(Long memberId, String competitionCode) {
@@ -93,7 +90,6 @@ public class CompetitionServiceImpl implements CompetitionService {
                         .member(member)
                         .score(0)
                         .rank(0).build();
-
         return rankingRepository.save(ranking);
     }
 
@@ -113,7 +109,6 @@ public class CompetitionServiceImpl implements CompetitionService {
         }
     }
 
-
     @Override
     public List<Ranking> generateCompetitionRanks(String competitionCode) {
         Competition competition = competitionRepository.findCompetitionByCode(competitionCode);
@@ -127,15 +122,13 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public List<Ranking> showCompetitionPodium(String competitionCode) {
-        List<Ranking> podium = generateCompetitionRanks(competitionCode).stream().limit(3).toList();
-        return podium;
+        return generateCompetitionRanks(competitionCode).stream().limit(3).toList();
     }
 
     @Override
-    public List<Competition> getAllCompetitions() {
-        return competitionRepository.findAll();
+    public Page<Competition> getAllCompetitions() {
+        return competitionRepository.findAll(PageRequest.of(0,4));
     }
-
 
     @Override
     public Competition updateCompetition(Long id, Competition competition) {

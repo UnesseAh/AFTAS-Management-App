@@ -1,9 +1,12 @@
 package com.example.aftas.controller.vm;
 
 import com.example.aftas.entities.Competition;
+import com.example.aftas.entities.Ranking;
+import org.springframework.aop.target.LazyInitTargetSource;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public record CompetitionResponseVM(
         String CODE,
@@ -12,7 +15,8 @@ public record CompetitionResponseVM(
         LocalTime END_TIME,
         Integer NUMBER_OF_PARTICIPANTS,
         String LOCATION,
-        Double AMOUNT
+        Double AMOUNT,
+        List<Ranking> rankingList
 ) {
     public static CompetitionResponseVM fromCompetition(Competition competition){
         return new CompetitionResponseVM(
@@ -22,7 +26,8 @@ public record CompetitionResponseVM(
                 competition.getEndTime(),
                 competition.getNumberOfParticipants(),
                 competition.getLocation(),
-                competition.getAmount()
+                competition.getAmount(),
+                competition.getRankings()
         );
     }
 }

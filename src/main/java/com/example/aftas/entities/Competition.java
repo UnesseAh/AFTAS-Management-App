@@ -34,7 +34,7 @@ public class Competition {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competition")
     @JsonManagedReference
     private List<Hunting> huntingList;
-//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "competition")
-//    @JsonManagedReference
-//    private List<Ranking> rankings;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "competition")
+    @JsonManagedReference
+    private List<Ranking> rankings;
 }

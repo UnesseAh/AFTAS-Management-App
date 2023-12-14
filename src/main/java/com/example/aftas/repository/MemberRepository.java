@@ -11,10 +11,6 @@ import java.util.Optional;
 @Component
 public interface MemberRepository extends JpaRepository<Member, Long> {
     Member findMemberByNumber(Long number);
-    @Query(value = "SELECT * FROM members " +
-            "WHERE members.first_name LIKE ?1 " +
-            "or members.last_name like ?1 " +
-            "or CONVERT(members.number, CHAR) like ?1",
-    nativeQuery = true)
+    @Query(value = "SELECT * FROM members WHERE members.first_name LIKE ?1 or members.last_name like ?1 or CONVERT(members.number, CHAR) like ?1", nativeQuery = true)
     Optional<Member> searchForAMember(String searchWord);
 }

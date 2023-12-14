@@ -3,6 +3,7 @@ package com.example.aftas.service.interfaces;
 import com.example.aftas.entities.Competition;
 import com.example.aftas.entities.Member;
 import com.example.aftas.entities.Ranking;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public interface CompetitionService {
     Competition createCompetition(Competition competition);
     String generateCompetitionCode(Competition competition);
     Competition findCompetitionByCode(String code);
-    List<Competition> getAllCompetitions();
+    Page<Competition> getAllCompetitions();
     List<Ranking> generateCompetitionRanks(String competitionCode);
     List<Ranking> showCompetitionPodium(String competitionCode);
     Competition updateCompetition(Long id, Competition competition);
