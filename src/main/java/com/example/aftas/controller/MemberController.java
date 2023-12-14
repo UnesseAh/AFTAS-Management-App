@@ -35,13 +35,13 @@ public class MemberController {
         return ResponseMessage.ok(memberResponseVM, "Member was found successfully");
     }
 
-    @GetMapping("{/word}")
+    @GetMapping("/search/{word}")
     public ResponseEntity searchForMember(@PathVariable("word") String searchWord){
         Optional<Member> member = memberService.searchForMember(searchWord);
         if (member.isEmpty()){
             throw new IllegalArgumentException("No member was found");
         }
-        return ResponseMessage.ok(member, "Member was found");
+        return ResponseMessage.ok(MemberResponseVM.fromMember(member.get()), "Member was found");
     }
 
 
