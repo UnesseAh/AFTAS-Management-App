@@ -35,7 +35,7 @@ public class CompetitionServiceImpl implements CompetitionService {
         List<Competition> foundDate = competitions.stream()
                 .filter(c -> competition.getDate().equals(c.getDate())).toList();
         if(!foundDate.isEmpty()){
-            throw new IllegalArgumentException("There is already a competition with  that date");
+            throw new IllegalArgumentException("There is already a competition in  that date");
         }
         if(competition.getEndTime().isBefore(competition.getStartTime())){
             throw new IllegalArgumentException("Competition end time must come after the start time");

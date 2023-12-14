@@ -5,6 +5,8 @@ import com.example.aftas.repository.FishRepository;
 import com.example.aftas.service.interfaces.FishService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FishServiceImpl implements FishService {
     private final FishRepository fishRepository;
@@ -16,5 +18,25 @@ public class FishServiceImpl implements FishService {
     @Override
     public Fish getFishByName(String name) {
         return fishRepository.findFishByName(name);
+    }
+
+    @Override
+    public Fish createFish(Fish fish) {
+        return null;
+    }
+
+    @Override
+    public List<Fish> getAllFish() {
+        return null;
+    }
+
+    @Override
+    public Fish updateFish(Fish fish) {
+        return null;
+    }
+
+    @Override
+    public void deleteFish(Long id) {
+
     }
 }
