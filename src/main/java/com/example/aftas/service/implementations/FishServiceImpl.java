@@ -42,16 +42,40 @@ public class FishServiceImpl implements FishService {
 
     @Override
     public List<Fish> getAllFishes() {
-        return null;
+        return fishRepository.findAll();
     }
 
     @Override
-    public Fish updateFish(Long id, Fish fish) {
-        return null;
+    public Optional<Fish> findFishById(Long id) {
+        Optional<Fish> fish = fishRepository.findById(id);
+        return fish;
+    }
+
+    @Override
+    public Fish updateFish(Long id, FishDTO fishDTO) {
+        Optional<Fish> foundFish = findFishById(id);
+        if (foundFish.isEmpty()){
+            throw new IllegalArgumentException("Fish with this id doesn't exist");
+        }
+
+        Optional<Level> foundLevel = levelService.findALevelByCode(fishDTO.LevelCode());
+        if (foundLevel.isEmpty()){
+            throw new IllegalArgumentException("Level with this id doesn't exist");
+        }
+
+        foundFish.get().setName(fishDTO.name());
+        foundFish.get().setAverageWeight(fishDTO.averageWeight());
+        foundFish.get().setLevel(foundLevel.get());
+
+        return fishRepository.save(foundFish.get());
     }
 
     @Override
     public void deleteFish(Long id) {
-
+        Optional<Fish> fish = findFishById(id);
+        if (fish.isEmpty()){
+            throw new IllegalArgumentException("Fish with this id doesn't exist");
+        }
+        fishRepository.delete(fish.get());
     }
 }

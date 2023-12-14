@@ -6,12 +6,14 @@ import com.example.aftas.entities.Level;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface FishService {
     Fish getFishByName(String name);
     Fish createFish(FishDTO fishDTO);
     List<Fish> getAllFishes();
-    Fish updateFish(Long id, Fish fish);
+    Optional<Fish> findFishById(Long id);
+    Fish updateFish(Long id, FishDTO fishDTO);
     void deleteFish(Long id);
 }
