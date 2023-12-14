@@ -59,4 +59,12 @@ public class CompetitionController {
         generatedRankings.forEach(ranking -> rankingsResponseVMS.add(RankingsResponseVM.fromRanking(ranking)));
         return ResponseMessage.ok(rankingsResponseVMS, "Generated Rankings");
     }
+
+    @PostMapping("/{competition}/podium")
+    public ResponseEntity showCompetitionPodium(@PathVariable("competition") String competition){
+        List<Ranking> generatedRankings = competitionService.showCompetitionPodium(competition);
+        List<RankingsResponseVM> rankingsResponseVMS = new ArrayList<>();
+        generatedRankings.forEach(ranking -> rankingsResponseVMS.add(RankingsResponseVM.fromRanking(ranking)));
+        return ResponseMessage.ok(rankingsResponseVMS, "Generated Rankings");
+    }
 }

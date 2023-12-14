@@ -120,6 +120,12 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
+    public List<Ranking> showCompetitionPodium(String competitionCode) {
+        List<Ranking> podium = generateCompetitionRanks(competitionCode).stream().limit(3).toList();
+        return podium;
+    }
+
+    @Override
     public List<Competition> getAllCompetitions() {
         return competitionRepository.findAll();
     }
