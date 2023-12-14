@@ -6,6 +6,7 @@ import com.example.aftas.service.interfaces.LevelService;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class LevelServiceImpl implements LevelService {
@@ -26,12 +27,29 @@ public class LevelServiceImpl implements LevelService {
     }
 
     @Override
+    public Optional<Level> findALevel(Long id) {
+        Optional<Level> level = levelRepository.findById(id);
+
+        return level;
+    }
+
+    @Override
     public Level updateLevel(Long id, Level level) {
-        return null;
+        Optional<Level> foundLevel = findALevel(id);
+        if (foundLevel.isEmpty()){
+            throw new IllegalArgumentException("Level was not found");
+        }
+
+        level.setId(id);
+        return levelRepository.save(level);
     }
 
     @Override
     public void deleteLevel(Long id) {
-
+        Optional<Level> foundLevel = findALevel(id);
+        if (foundLevel.isEmpty()){
+            throw new IllegalArgumentException("Level was not found");
+        }
+        levelRepository.delete(foundLevel.get());
     }
 }

@@ -26,18 +26,24 @@ public class LevelController {
     @PostMapping
     public ResponseEntity createLevel(@RequestBody @Valid LevelRequestVM levelRequestVM){
         Level level = levelService.createLevel(levelRequestVM.toLevel());
-        LevelResponseVM levelResponseVM = LevelResponseVM.fromLevel(level);
-        return ResponseMessage.created(levelResponseVM, "Level created successfully");
+        return ResponseMessage.created(LevelResponseVM.fromLevel(level), "Level created successfully");
     }
 
     @GetMapping
-    public List<Level> getAllLevels(){
-        return levelService.getAllLevels();
+    public ResponseEntity getAllLevels(){
+        List<Level> levels = levelService.getAllLevels();
+        if (levels.isEmpty()){
+            return ResponseMessage.notFound("No levels were found");
+        }
+        return ResponseMessage.ok(levels.stream().map(LevelResponseVM::fromLevel).toList(), "Levels retrieved successfully");
     }
 
     @PutMapping("/{id}")
-    public Level updateLevel(@PathVariable("id") Long id, Level level){
-        return levelService.updateLevel(id, level);
+    public ResponseEntity updateLevel(@PathVariable("id") Long id, @RequestBody LevelRequestVM levelRequestVM){
+        Level level = levelRequestVM.toLevel();
+        return ResponseMessage.ok(
+                LevelResponseVM.fromLevel(levelService.updateLevel(id, level)),
+                "Level updated successfully") ;
     }
 
     @DeleteMapping("/{id}")
