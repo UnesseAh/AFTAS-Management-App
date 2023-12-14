@@ -9,6 +9,7 @@ import com.example.aftas.repository.HuntingRepository;
 import com.example.aftas.service.interfaces.*;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Component
@@ -33,6 +34,12 @@ public class HuntingServiceImpl implements HuntingService {
     public Hunting createHunting(HuntingDTO huntingDTO) {
 
         Competition competition = competitionService.findCompetitionByCode(huntingDTO.competitionCode());
+
+        LocalDateTime endDateTimeOfCompetition = LocalDateTime.of(competition.getDate(), competition.getEndTime());
+        if(LocalDateTime.now().isAfter(endDateTimeOfCompetition)){
+            throw new IllegalArgumentException("This competition is over");
+        }
+
         Member member = memberService.getMemberByNumber(huntingDTO.memberNumber());
         Optional<Fish> fish = fishService.getFishByName(huntingDTO.fishName());
 
