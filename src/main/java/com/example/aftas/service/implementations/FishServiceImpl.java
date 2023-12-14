@@ -13,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class FishServiceImpl implements FishService {
+
     private final FishRepository fishRepository;
     private final LevelService levelService;
 

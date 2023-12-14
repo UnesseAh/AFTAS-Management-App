@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/fishes")
 public class FishController {
+
     private final FishService fishService;
     private final LevelService levelService;
 

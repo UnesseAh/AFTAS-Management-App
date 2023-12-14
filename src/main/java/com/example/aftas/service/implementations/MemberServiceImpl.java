@@ -14,6 +14,7 @@ import java.util.Optional;
 @Component
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
+
     private final MemberRepository memberRepository;
 
     @Override

@@ -6,7 +6,6 @@ import com.example.aftas.entities.Ranking;
 import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.CompetitionService;
 import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,10 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/api/v1/competitions")
 public class CompetitionController {
+
     private final CompetitionService competitionService;
+
+    public CompetitionController(CompetitionService competitionService) {
+        this.competitionService = competitionService;
+    }
 
     @PostMapping
     public ResponseEntity createCompetition(@RequestBody @Valid CompetitionRequestVM competitionRequestVM){

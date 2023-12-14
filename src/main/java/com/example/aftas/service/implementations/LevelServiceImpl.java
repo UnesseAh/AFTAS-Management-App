@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Component
 public class LevelServiceImpl implements LevelService {
+
     private final LevelRepository levelRepository;
 
     public LevelServiceImpl(LevelRepository levelRepository) {

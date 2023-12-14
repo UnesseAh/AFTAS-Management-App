@@ -10,7 +10,6 @@ import com.example.aftas.repository.RankingRepository;
 import com.example.aftas.service.interfaces.CompetitionService;
 import com.example.aftas.service.interfaces.MemberService;
 import com.example.aftas.service.interfaces.RankingService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -21,12 +20,19 @@ import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
-@RequiredArgsConstructor
 public class CompetitionServiceImpl implements CompetitionService {
+
     private final CompetitionRepository competitionRepository;
     private final RankingRepository rankingRepository;
     private final RankingService rankingService;
     private final MemberService memberService;
+
+    public CompetitionServiceImpl(CompetitionRepository competitionRepository, RankingRepository rankingRepository, RankingService rankingService, MemberService memberService) {
+        this.competitionRepository = competitionRepository;
+        this.rankingRepository = rankingRepository;
+        this.rankingService = rankingService;
+        this.memberService = memberService;
+    }
 
 
     @Override

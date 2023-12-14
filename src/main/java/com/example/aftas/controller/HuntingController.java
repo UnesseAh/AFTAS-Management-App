@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/huntings")
 public class HuntingController {
+
     private final HuntingService huntingService;
 
     public HuntingController(HuntingService huntingService) {
