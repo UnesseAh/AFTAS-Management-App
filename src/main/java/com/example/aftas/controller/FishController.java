@@ -1,16 +1,15 @@
 package com.example.aftas.controller;
 
 import com.example.aftas.DTO.FishDTO;
-import com.example.aftas.controller.vm.FishResponseVM;
+import com.example.aftas.controller.vm.Fish.FishResponseVM;
 import com.example.aftas.entities.Fish;
 import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.FishService;
 import com.example.aftas.service.interfaces.LevelService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -33,7 +32,7 @@ public class FishController {
 
     @GetMapping
     public ResponseEntity getAllFish(){
-        List<Fish> fishes = fishService.getAllFishes();
+        Page<Fish> fishes = fishService.getAllFishes();
         if (fishes.isEmpty()){
             return ResponseMessage.notFound("No fishes were found");
         }

@@ -1,4 +1,4 @@
-package com.example.aftas.controller.vm;
+package com.example.aftas.controller.vm.Fish;
 
 import com.example.aftas.entities.Fish;
 

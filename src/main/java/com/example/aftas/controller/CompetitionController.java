@@ -1,6 +1,8 @@
 package com.example.aftas.controller;
 
 import com.example.aftas.controller.vm.*;
+import com.example.aftas.controller.vm.Competition.CompetitionRequestVM;
+import com.example.aftas.controller.vm.Competition.CompetitionResponseVM;
 import com.example.aftas.entities.Competition;
 import com.example.aftas.entities.Ranking;
 import com.example.aftas.handler.response.ResponseMessage;

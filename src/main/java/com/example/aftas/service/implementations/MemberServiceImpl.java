@@ -5,13 +5,13 @@ import com.example.aftas.handler.exception.ResourceNotFoundException;
 import com.example.aftas.repository.MemberRepository;
 import com.example.aftas.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -28,7 +28,7 @@ public class MemberServiceImpl implements MemberService {
     public String generateMemberNumber(Member member) {
         String generatedString = member.getFirstName().substring(0,2) + "-" +
                         member.getLastName().substring(0,2) + "-" +
-                        RandomStringUtils.randomAlphanumeric(4);
+                        UUID.randomUUID().toString().replace("-","").substring(0,4);
         return generatedString;
     }
 

@@ -1,4 +1,4 @@
-package com.example.aftas.controller.vm;
+package com.example.aftas.controller.vm.Member;
 
 import com.example.aftas.entities.Member;
 import com.example.aftas.entities.enums.IdentityDocumentType;

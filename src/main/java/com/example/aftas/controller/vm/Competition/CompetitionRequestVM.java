@@ -1,4 +1,4 @@
-package com.example.aftas.controller.vm;
+package com.example.aftas.controller.vm.Competition;
 
 import com.example.aftas.entities.Competition;
 import jakarta.validation.constraints.*;

@@ -1,11 +1,14 @@
 package com.example.aftas.controller;
 
-import com.example.aftas.controller.vm.MemberRequestVM;
-import com.example.aftas.controller.vm.MemberResponseVM;
+import com.example.aftas.controller.vm.Member.MemberRequestVM;
+import com.example.aftas.controller.vm.Member.MemberResponseVM;
 import com.example.aftas.entities.Member;
 import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.MemberService;
 import jakarta.validation.Valid;
+import jakarta.websocket.server.PathParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +22,13 @@ public class MemberController {
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
+    }
+
+    @GetMapping("/hello/{year}")
+    public ResponseEntity<?> testMethod(@PathVariable Long year){
+        return ResponseEntity.ok()
+                .header("mjid", "asmae")
+                .body("test response message");
     }
 
     @PostMapping

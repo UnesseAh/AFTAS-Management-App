@@ -1,15 +1,14 @@
 package com.example.aftas.controller;
 
-import com.example.aftas.controller.vm.LevelRequestVM;
-import com.example.aftas.controller.vm.LevelResponseVM;
+import com.example.aftas.controller.vm.Level.LevelRequestVM;
+import com.example.aftas.controller.vm.Level.LevelResponseVM;
 import com.example.aftas.entities.Level;
 import com.example.aftas.handler.response.ResponseMessage;
 import com.example.aftas.service.interfaces.LevelService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/levels")
@@ -29,7 +28,7 @@ public class LevelController {
 
     @GetMapping
     public ResponseEntity getAllLevels(){
-        List<Level> levels = levelService.getAllLevels();
+        Page<Level> levels = levelService.getAllLevels();
         if (levels.isEmpty()){
             return ResponseMessage.notFound("No levels were found");
         }

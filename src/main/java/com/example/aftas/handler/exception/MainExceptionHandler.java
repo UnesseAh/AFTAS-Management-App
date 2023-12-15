@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 public class MainExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity resourceNotFoundException(ResourceNotFoundException ex){
+    protected ResponseEntity<?> resourceNotFoundException(ResourceNotFoundException ex){
         HashMap<String, String> errorMessage = new HashMap<>();
         errorMessage.put("error", ex.getMessage());
         return new  ResponseEntity<>(errorMessage,HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<?> dataNotValid(MethodArgumentNotValidException ex){
+    protected ResponseEntity<?> dataNotValid(MethodArgumentNotValidException ex){
         HashMap<String, String> errorsMessage = new HashMap<>();
         ex.getBindingResult()
                 .getFieldErrors()
@@ -32,7 +32,7 @@ public class MainExceptionHandler {
     };
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity argumentNotValid(IllegalArgumentException ex){
+    protected ResponseEntity<?> argumentNotValid(IllegalArgumentException ex){
         HashMap<String, String> errorMessage = new HashMap<>();
         errorMessage.put("error", ex.getMessage());
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);

@@ -1,4 +1,4 @@
-package com.example.aftas.controller.vm;
+package com.example.aftas.controller.vm.Level;
 
 import com.example.aftas.entities.Level;
 

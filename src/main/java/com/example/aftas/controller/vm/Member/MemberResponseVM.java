@@ -1,11 +1,9 @@
-package com.example.aftas.controller.vm;
+package com.example.aftas.controller.vm.Member;
 
 import com.example.aftas.entities.Member;
-import com.example.aftas.entities.Ranking;
 import com.example.aftas.entities.enums.IdentityDocumentType;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public record MemberResponseVM(
         Long MEMBER_NUMBER,

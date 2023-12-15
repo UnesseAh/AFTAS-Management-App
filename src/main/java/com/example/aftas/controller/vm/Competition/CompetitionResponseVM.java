@@ -1,8 +1,7 @@
-package com.example.aftas.controller.vm;
+package com.example.aftas.controller.vm.Competition;
 
 import com.example.aftas.entities.Competition;
 import com.example.aftas.entities.Ranking;
-import org.springframework.aop.target.LazyInitTargetSource;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
