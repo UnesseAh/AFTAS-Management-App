@@ -39,5 +39,4 @@ public record MemberRequestVM(
                         .identityNumber(identityNumber)
                         .build();
         }
-
 }

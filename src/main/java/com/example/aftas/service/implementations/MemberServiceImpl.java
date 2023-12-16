@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -38,8 +39,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Optional<Member> searchForMember(String searchWord) {
-        return memberRepository.searchForAMember(searchWord);
+    public List<Member> searchForMember(String searchKey) {
+        return memberRepository.searchForAMember(searchKey);
     }
 
     @Override

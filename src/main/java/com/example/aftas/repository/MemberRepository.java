@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -19,7 +20,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "or members.last_name like ?1 " +
             "or CONVERT(members.number, CHAR) like ?1",
             nativeQuery = true)
-    Optional<Member> searchForAMember(String searchWord);
+    List<Member> searchForAMember(String searchWord);
 
     @Query("SELECT m FROM Member m WHERE m.identityNumber = ?1")
     Optional<Member> findMemberByIdentityNumber(String identityNumber);
