@@ -5,7 +5,7 @@ import com.example.aftas.controller.vm.Competition.CompetitionRequestVM;
 import com.example.aftas.controller.vm.Competition.CompetitionResponseVM;
 import com.example.aftas.entities.Competition;
 import com.example.aftas.entities.Ranking;
-import com.example.aftas.handler.response.ResponseMessage;
+import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.CompetitionService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -26,10 +26,10 @@ public class CompetitionController {
     }
 
     @PostMapping
-    public ResponseEntity createCompetition(@RequestBody @Valid CompetitionRequestVM competitionRequestVM){
+    public ResponseEntity<GenericResponse> createCompetition(@RequestBody @Valid CompetitionRequestVM competitionRequestVM){
 
         Competition competition = competitionService.createCompetition(competitionRequestVM.toCompetition());
-        return ResponseMessage.created(
+        return GenericResponse.created(
                 CompetitionResponseVM.fromCompetition(competition),
                 "Competition created successfully");
     }
@@ -39,24 +39,24 @@ public class CompetitionController {
         Long memberId = memberToCompetitionRequestVM.memberId();
         String competitionId = memberToCompetitionRequestVM.competitionCode();
         MemberToCompetitionResponseVM memberToCompetitionResponseVM = MemberToCompetitionResponseVM.fromRanking(competitionService.registerMemberInACompetition(memberId, competitionId));
-        return ResponseMessage.created(memberToCompetitionResponseVM, "Member assigned successfully");
+        return GenericResponse.created(memberToCompetitionResponseVM, "Member assigned successfully");
     }
 
     @GetMapping
     public ResponseEntity getAllCompetitions(){
         Page<Competition> competitionList = competitionService.getAllCompetitions();
         if (competitionList.isEmpty()){
-            return ResponseMessage.notFound("No competitions were found");
+            return GenericResponse.notFound("No competitions were found");
         }
         List<CompetitionResponseVM> competitionResponseVMS = new ArrayList<>();
         competitionList.forEach(competition -> competitionResponseVMS.add(CompetitionResponseVM.fromCompetition(competition)));
-        return ResponseMessage.ok(competitionResponseVMS, "Competitions returned successfully") ;
+        return GenericResponse.ok(competitionResponseVMS, "Competitions returned successfully") ;
     }
 
     @GetMapping("/{code}")
     public ResponseEntity getCompetition(@PathVariable String code){
         CompetitionResponseVM competitionResponseVM = CompetitionResponseVM.fromCompetition(competitionService.findCompetitionByCode(code));
-        return ResponseMessage.ok(competitionResponseVM, "Competition is found");
+        return GenericResponse.ok(competitionResponseVM, "Competition is found");
     }
 
     @PostMapping("/{competition}")
@@ -64,7 +64,7 @@ public class CompetitionController {
         List<Ranking> generatedRankings = competitionService.generateCompetitionRanks(competition);
         List<RankingsResponseVM> rankingsResponseVMS = new ArrayList<>();
         generatedRankings.forEach(ranking -> rankingsResponseVMS.add(RankingsResponseVM.fromRanking(ranking)));
-        return ResponseMessage.ok(rankingsResponseVMS, "Generated Rankings");
+        return GenericResponse.ok(rankingsResponseVMS, "Generated Rankings");
     }
 
     @PostMapping("/{competition}/podium")
@@ -72,6 +72,6 @@ public class CompetitionController {
         List<Ranking> generatedRankings = competitionService.showCompetitionPodium(competition);
         List<RankingsResponseVM> rankingsResponseVMS = new ArrayList<>();
         generatedRankings.forEach(ranking -> rankingsResponseVMS.add(RankingsResponseVM.fromRanking(ranking)));
-        return ResponseMessage.ok(rankingsResponseVMS, "Generated Rankings");
+        return GenericResponse.ok(rankingsResponseVMS, "Generated Rankings");
     }
 }

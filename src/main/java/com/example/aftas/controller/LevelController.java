@@ -3,7 +3,7 @@ package com.example.aftas.controller;
 import com.example.aftas.controller.vm.Level.LevelRequestVM;
 import com.example.aftas.controller.vm.Level.LevelResponseVM;
 import com.example.aftas.entities.Level;
-import com.example.aftas.handler.response.ResponseMessage;
+import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.LevelService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -23,22 +23,22 @@ public class LevelController {
     @PostMapping
     public ResponseEntity createLevel(@RequestBody @Valid LevelRequestVM levelRequestVM){
         Level level = levelService.createLevel(levelRequestVM.toLevel());
-        return ResponseMessage.created(LevelResponseVM.fromLevel(level), "Level created successfully");
+        return GenericResponse.created(LevelResponseVM.fromLevel(level), "Level created successfully");
     }
 
     @GetMapping
     public ResponseEntity getAllLevels(){
         Page<Level> levels = levelService.getAllLevels();
         if (levels.isEmpty()){
-            return ResponseMessage.notFound("No levels were found");
+            return GenericResponse.notFound("No levels were found");
         }
-        return ResponseMessage.ok(levels.stream().map(LevelResponseVM::fromLevel).toList(), "Levels retrieved successfully");
+        return GenericResponse.ok(levels.stream().map(LevelResponseVM::fromLevel).toList(), "Levels retrieved successfully");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity updateLevel(@PathVariable("id") Long id, @RequestBody LevelRequestVM levelRequestVM){
         Level level = levelRequestVM.toLevel();
-        return ResponseMessage.ok(
+        return GenericResponse.ok(
                 LevelResponseVM.fromLevel(levelService.updateLevel(id, level)),
                 "Level updated successfully") ;
     }

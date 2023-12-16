@@ -3,7 +3,7 @@ package com.example.aftas.controller;
 import com.example.aftas.DTO.HuntingDTO;
 import com.example.aftas.controller.vm.HuntingResponseVM;
 import com.example.aftas.entities.Hunting;
-import com.example.aftas.handler.response.ResponseMessage;
+import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.HuntingService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +25,6 @@ public class HuntingController {
     public ResponseEntity createHunting(@RequestBody HuntingDTO huntingDTO){
         Hunting hunting = huntingService.createHunting(huntingDTO);
         HuntingResponseVM huntingResponseVM = HuntingResponseVM.fromHunting(hunting);
-        return ResponseMessage.created(huntingResponseVM, "Hunting saved successfully");
+        return GenericResponse.created(huntingResponseVM, "Hunting saved successfully");
     }
 }

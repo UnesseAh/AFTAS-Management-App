@@ -3,7 +3,7 @@ package com.example.aftas.controller;
 import com.example.aftas.DTO.FishDTO;
 import com.example.aftas.controller.vm.Fish.FishResponseVM;
 import com.example.aftas.entities.Fish;
-import com.example.aftas.handler.response.ResponseMessage;
+import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.FishService;
 import com.example.aftas.service.interfaces.LevelService;
 import jakarta.validation.Valid;
@@ -27,22 +27,22 @@ public class FishController {
     @PostMapping
     public ResponseEntity createFish(@RequestBody @Valid FishDTO fishDTO){
         Fish fish = fishService.createFish(fishDTO);
-        return ResponseMessage.created(FishResponseVM.fromFish(fish), "Fish created successfully");
+        return GenericResponse.created(FishResponseVM.fromFish(fish), "Fish created successfully");
     }
 
     @GetMapping
     public ResponseEntity getAllFish(){
         Page<Fish> fishes = fishService.getAllFishes();
         if (fishes.isEmpty()){
-            return ResponseMessage.notFound("No fishes were found");
+            return GenericResponse.notFound("No fishes were found");
         }
-        return ResponseMessage.ok(fishes.stream().map(FishResponseVM::fromFish).toList(), "Fishes retrieved successfully");
+        return GenericResponse.ok(fishes.stream().map(FishResponseVM::fromFish).toList(), "Fishes retrieved successfully");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity updateFish(@PathVariable("id") Long id, @RequestBody FishDTO fishDTO){
 
-        return ResponseMessage.ok(
+        return GenericResponse.ok(
                 FishResponseVM.fromFish(fishService.updateFish(id, fishDTO)),
                 "Level updated successfully") ;
     }

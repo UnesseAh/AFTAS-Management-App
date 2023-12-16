@@ -3,12 +3,9 @@ package com.example.aftas.controller;
 import com.example.aftas.controller.vm.Member.MemberRequestVM;
 import com.example.aftas.controller.vm.Member.MemberResponseVM;
 import com.example.aftas.entities.Member;
-import com.example.aftas.handler.response.ResponseMessage;
+import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.MemberService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,35 +21,26 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping("/hello/{year}")
-    public ResponseEntity<?> testMethod(@PathVariable Long year){
-        return ResponseEntity.ok()
-                .header("mjid", "asmae")
-                .body("test response message");
-    }
 
     @PostMapping
-    public ResponseEntity createMember(@RequestBody @Valid MemberRequestVM memberRequestVM){
+    public ResponseEntity<?> createMember(@RequestBody @Valid MemberRequestVM memberRequestVM){
         Member member = memberService.createMember(memberRequestVM.toMember());
-        return ResponseMessage.created(
+        return GenericResponse.created(
                 MemberResponseVM.fromMember(member),
                 "Member created successfully!");
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity getMemberById(@PathVariable Long id){
-        MemberResponseVM memberResponseVM = MemberResponseVM.fromMember(memberService.getMemberById(id));
-        return ResponseMessage.ok(memberResponseVM, "Member was found successfully");
-    }
-
     @GetMapping("/search/{word}")
-    public ResponseEntity searchForMember(@PathVariable("word") String searchWord){
+    public ResponseEntity<?> searchForMember(@PathVariable("word") String searchWord){
         Optional<Member> member = memberService.searchForMember(searchWord);
         if (member.isEmpty()){
             throw new IllegalArgumentException("No member was found");
         }
-        return ResponseMessage.ok(MemberResponseVM.fromMember(member.get()), "Member was found");
+        return GenericResponse.ok(MemberResponseVM.fromMember(member.get()), "Member was found");
     }
 
+    //TODO : RETURNS ALL MEMBERS WITH PAGEABLE
+    //TODO : UPDATE MEMBER
+    //TODO : DELETE MEMBER
 
 }
