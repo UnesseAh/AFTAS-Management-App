@@ -15,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
@@ -39,27 +41,27 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public Competition createCompetition(Competition competition) {
-        Page<Competition> competitions = getAllCompetitions();
-        List<Competition> foundDate = competitions.stream()
-                .filter(c -> competition.getDate().equals(c.getDate())).toList();
-        if(!foundDate.isEmpty()){
-            throw new IllegalArgumentException("There is already a competition in  that date");
+        if(competitionRepository.findCompetitionByDate(competition.getDate()).isPresent()){
+            throw new IllegalArgumentException("There is already a competition in the date (" + competition.getDate() + ")");
         }
         if(competition.getEndTime().isBefore(competition.getStartTime())){
-            throw new IllegalArgumentException("Competition end time must come after the start time");
+            throw new IllegalArgumentException("the competition's end time must come after the start time");
         }
-        String generatedCode = generateCompetitionCode(competition);
-        competition.setCode(generatedCode);
-        competition.setNumberOfParticipants(0);
-        return competitionRepository.save(competition);
-    }
+        if ( Duration.between(competition.getStartTime(), competition.getEndTime()).toHours() < 1 ){
+            throw new IllegalArgumentException("The competition must be at least 1 hour long");
+        }
+        if(competition.getDate().minus(Period.ofDays(2)).isBefore(LocalDate.now())){
+            throw new IllegalArgumentException("The competition must at least be in 2 days from now");
+        }
 
-    @Override
-    public String generateCompetitionCode(Competition competition) {
-        return MessageFormat.format(
+        String generatedCode = MessageFormat.format(
                 "{0}-{1}",
                 competition.getLocation().substring(0,4).toLowerCase(),
                 competition.getDate());
+
+        competition.setCode(generatedCode);
+        competition.setNumberOfParticipants(competition.getNumberOfParticipants());
+        return competitionRepository.save(competition);
     }
 
     @Override
@@ -131,8 +133,8 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public Page<Competition> getAllCompetitions() {
-        return competitionRepository.findAll(PageRequest.of(0,4));
+    public List<Competition> getAllCompetitions() {
+        return competitionRepository.findAll();
     }
 
     @Override

@@ -26,8 +26,10 @@ public class CompetitionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCompetition(@RequestBody @Valid CompetitionRequestVM competitionRequestVM){
-
+    public ResponseEntity<?> createCompetition(
+            @RequestBody @Valid
+            CompetitionRequestVM competitionRequestVM
+    ){
         Competition competition = competitionService.createCompetition(competitionRequestVM.toCompetition());
         return GenericResponse.created(
                 CompetitionResponseVM.fromCompetition(competition),
@@ -44,7 +46,7 @@ public class CompetitionController {
 
     @GetMapping
     public ResponseEntity getAllCompetitions(){
-        Page<Competition> competitionList = competitionService.getAllCompetitions();
+        List<Competition> competitionList = competitionService.getAllCompetitions();
         if (competitionList.isEmpty()){
             return GenericResponse.notFound("No competitions were found");
         }

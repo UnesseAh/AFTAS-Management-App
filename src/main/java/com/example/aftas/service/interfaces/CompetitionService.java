@@ -11,9 +11,8 @@ import java.util.List;
 @Service
 public interface CompetitionService {
     Competition createCompetition(Competition competition);
-    String generateCompetitionCode(Competition competition);
     Competition findCompetitionByCode(String code);
-    Page<Competition> getAllCompetitions();
+    List<Competition> getAllCompetitions();
     List<Ranking> generateCompetitionRanks(String competitionCode);
     List<Ranking> showCompetitionPodium(String competitionCode);
     Competition updateCompetition(Long id, Competition competition);

@@ -36,7 +36,7 @@ public class GenericResponse {
     }
 
     public static ResponseEntity<?> notFound(String message){
-        return new ResponseEntity<>(new GenericResponse(HttpStatus.NOT_FOUND.value(), message),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(new GenericResponse(HttpStatus.NOT_FOUND.value(), message), HttpStatus.NOT_FOUND);
     }
 
     public static ResponseEntity<?> badRequest(String message){
