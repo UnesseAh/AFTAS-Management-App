@@ -3,7 +3,6 @@ package com.example.aftas.controller.vm.Member;
 import com.example.aftas.entities.Member;
 import com.example.aftas.entities.enums.IdentityDocumentType;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -13,11 +12,11 @@ import java.time.LocalDate;
 public record MemberRequestVM(
         @NotBlank(message = "First name is required")
         @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
-        @Pattern(regexp="^[A-Za-z]*$",message = "First name must only contain characters")
+        @Pattern(regexp="[^0-9]*$",message = "First name must only contain characters")
         String firstName,
         @NotBlank(message = "Last name is required")
         @Size(min = 2, max = 50, message = "First name must be between 2 and 50 characters")
-        @Pattern(regexp="^[A-Za-z]*$",message = "Last name must only contain characters")
+        @Pattern(regexp="[^0-9]*$",message = "Last name must only contain characters")
         String lastName,
         @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate accessionDate,
