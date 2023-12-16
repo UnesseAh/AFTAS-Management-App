@@ -20,6 +20,11 @@ public class MainExceptionHandler {
         return new  ResponseEntity<>(errorMessage,HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(ValidationException.class)
+    protected ResponseEntity<?> validationException(ValidationException ex){
+        return new ResponseEntity<>(ex.getErrors(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<?> dataNotValid(MethodArgumentNotValidException ex){
         HashMap<String, String> errorsMessage = new HashMap<>();

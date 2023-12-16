@@ -5,6 +5,7 @@ import com.example.aftas.entities.Member;
 import com.example.aftas.entities.Ranking;
 import com.example.aftas.entities.embeddable.RankId;
 import com.example.aftas.handler.exception.ResourceNotFoundException;
+import com.example.aftas.handler.exception.ValidationException;
 import com.example.aftas.repository.CompetitionRepository;
 import com.example.aftas.repository.RankingRepository;
 import com.example.aftas.service.interfaces.CompetitionService;
@@ -19,9 +20,7 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -41,17 +40,21 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public Competition createCompetition(Competition competition) {
+        List<String> errors = new ArrayList<>();
         if(competitionRepository.findCompetitionByDate(competition.getDate()).isPresent()){
-            throw new IllegalArgumentException("There is already a competition in the date (" + competition.getDate() + ")");
+            errors.add("There is already a competition in the date (" + competition.getDate() + ")");
         }
         if(competition.getEndTime().isBefore(competition.getStartTime())){
-            throw new IllegalArgumentException("the competition's end time must come after the start time");
+            errors.add("the competition's end time must come after the start time");
         }
         if ( Duration.between(competition.getStartTime(), competition.getEndTime()).toHours() < 1 ){
-            throw new IllegalArgumentException("The competition must be at least 1 hour long");
+            errors.add("The competition must be at least 1 hour long");
         }
         if(competition.getDate().minus(Period.ofDays(2)).isBefore(LocalDate.now())){
-            throw new IllegalArgumentException("The competition must at least be in 2 days from now");
+            errors.add("The competition must at least be in 2 days from now");
+        }
+        if(!errors.isEmpty()){
+            throw new ValidationException(errors);
         }
 
         String generatedCode = MessageFormat.format(
@@ -66,7 +69,7 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public Competition findCompetitionByCode(String code) {
-        Optional<Competition> competition = competitionRepository.findCompetitionByCodeContainsIgnoreCase(code);
+        Optional<Competition> competition = competitionRepository.findCompetitionByCode(code);
         if (competition.isEmpty()){
             throw new ResourceNotFoundException("Competition with the code (" + code + ") doesn't exist");
         }
@@ -118,8 +121,8 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public List<Ranking> generateCompetitionRanks(String competitionCode) {
-        Competition competition = competitionRepository.findCompetitionByCode(competitionCode);
-        List<Ranking> sortedRankingsByCompetition = rankingService.getSortedRankingsByCompetition(competition);
+        Optional<Competition> competition = competitionRepository.findCompetitionByCode(competitionCode);
+        List<Ranking> sortedRankingsByCompetition = rankingService.getSortedRankingsByCompetition(competition.get());
 
         AtomicInteger count = new AtomicInteger(0);
         sortedRankingsByCompetition.forEach(ranking -> ranking.setRank(count.incrementAndGet()));
