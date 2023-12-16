@@ -6,6 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.EntityListeners;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,17 +17,20 @@ import lombok.Setter;
 import lombok.Builder;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
+@EntityListeners({AuditingEntityListener.class})
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor @Builder
 @Entity @Table(name = "competitions")
 public class Competition {
     @Id
     private String code;
+    @Temporal(TemporalType.DATE)
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;

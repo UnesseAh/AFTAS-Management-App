@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/members")
@@ -24,7 +22,6 @@ public class MemberController {
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
-
 
     @PostMapping
     public ResponseEntity<?> createMember(@RequestBody @Valid MemberRequestVM memberRequestVM){
@@ -43,5 +40,4 @@ public class MemberController {
 
         return GenericResponse.ok(memberResponseVMS,"Member was found");
     }
-
 }
