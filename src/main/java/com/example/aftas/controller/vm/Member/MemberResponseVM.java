@@ -1,6 +1,7 @@
 package com.example.aftas.controller.vm.Member;
 
 import com.example.aftas.entities.Member;
+import com.example.aftas.entities.enums.Country;
 import com.example.aftas.entities.enums.IdentityDocumentType;
 
 import java.time.LocalDate;

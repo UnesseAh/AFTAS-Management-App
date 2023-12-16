@@ -25,9 +25,7 @@ public class MemberController {
     @PostMapping
     public ResponseEntity<?> createMember(@RequestBody @Valid MemberRequestVM memberRequestVM){
         Member member = memberService.createMember(memberRequestVM.toMember());
-        return GenericResponse.created(
-                MemberResponseVM.fromMember(member),
-                "Member created successfully!");
+        return GenericResponse.created(MemberResponseVM.fromMember(member), "Member created successfully.");
     }
 
     @GetMapping("/search/{word}")
@@ -38,9 +36,5 @@ public class MemberController {
         }
         return GenericResponse.ok(MemberResponseVM.fromMember(member.get()), "Member was found");
     }
-
-    //TODO : RETURNS ALL MEMBERS WITH PAGEABLE
-    //TODO : UPDATE MEMBER
-    //TODO : DELETE MEMBER
 
 }

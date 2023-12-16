@@ -19,6 +19,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
+
 @EntityListeners({AuditingEntityListener.class})
 @Getter @Setter @AllArgsConstructor @NoArgsConstructor @Builder
 @Entity @Table(name = "rankings")
@@ -35,8 +37,7 @@ public class Ranking {
     private Competition competition;
 
     @CreatedDate
-    private Long createdDate;
+    private LocalDateTime createdDate;
     @LastModifiedDate
-    private Long modifiedDate;
-
+    private LocalDateTime modifiedDate;
 }

@@ -26,6 +26,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @EntityListeners({AuditingEntityListener.class})
@@ -44,9 +45,9 @@ public class Member {
     private String identityNumber;
 
     @CreatedDate
-    private Long createdDate;
+    private LocalDateTime createdDate;
     @LastModifiedDate
-    private Long modifiedDate;
+    private LocalDateTime modifiedDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "member")
     @JsonManagedReference

@@ -26,7 +26,7 @@ public class CompetitionController {
     }
 
     @PostMapping
-    public ResponseEntity<GenericResponse> createCompetition(@RequestBody @Valid CompetitionRequestVM competitionRequestVM){
+    public ResponseEntity<?> createCompetition(@RequestBody @Valid CompetitionRequestVM competitionRequestVM){
 
         Competition competition = competitionService.createCompetition(competitionRequestVM.toCompetition());
         return GenericResponse.created(

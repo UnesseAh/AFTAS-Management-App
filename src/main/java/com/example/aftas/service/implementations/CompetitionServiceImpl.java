@@ -19,6 +19,7 @@ import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
@@ -79,6 +80,10 @@ public class CompetitionServiceImpl implements CompetitionService {
         checkIfMemberAlreadyEnrolledInACompetition(member, competition);
 
         checkCompetitionDateIsNotOver(competition);
+
+        String generatedNumber = member.getFirstName().substring(0,2) + "-" +
+                member.getLastName().substring(0,2) + "-" +
+                UUID.randomUUID().toString().replace("-","").substring(0,4);
 
         Ranking ranking = Ranking.builder()
                         .id(

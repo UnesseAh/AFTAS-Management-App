@@ -10,7 +10,6 @@ import java.util.Optional;
 @Service
 public interface MemberService {
     Member createMember(Member member);
-    String generateMemberNumber(Member member);
     Member getMemberById(Long id);
     Member getMemberByNumber(Long number);
     Optional<Member> searchForMember(String searchWord);

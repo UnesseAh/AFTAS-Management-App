@@ -9,9 +9,9 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 public class GenericResponse {
-    private int statusCode;
-    private String timeStamp;
-    private String message;
+    private final int statusCode;
+    private final String timeStamp;
+    private final String message;
     private Object data;
 
     public GenericResponse(int statusCode, Object data, String message){
@@ -27,16 +27,19 @@ public class GenericResponse {
         this.message = message;
     }
 
-    public static ResponseEntity ok(Object data, String message){
-        return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.value(), data, message),HttpStatus.OK);
+    public static ResponseEntity<?> ok(Object data, String message){
+        return new ResponseEntity<>(new GenericResponse(HttpStatus.OK.value(),data, message),HttpStatus.OK);
     }
-    public static ResponseEntity created(Object data, String message){
-        return new ResponseEntity<>(new GenericResponse(HttpStatus.CREATED.value(), data, message), HttpStatus.CREATED);
+
+    public static ResponseEntity<?> created(Object data, String message){
+        return new ResponseEntity<>(new GenericResponse(HttpStatus.CREATED.value(), data , message), HttpStatus.CREATED);
     }
-    public static ResponseEntity notFound(String message){
+
+    public static ResponseEntity<?> notFound(String message){
         return new ResponseEntity<>(new GenericResponse(HttpStatus.NOT_FOUND.value(), message),HttpStatus.NOT_FOUND);
     }
-    public static ResponseEntity badRequest(String message){
+
+    public static ResponseEntity<?> badRequest(String message){
         return new ResponseEntity<>(new GenericResponse(HttpStatus.BAD_REQUEST.value(), message), HttpStatus.BAD_REQUEST);
     }
 

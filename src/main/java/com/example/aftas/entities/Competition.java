@@ -16,6 +16,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
@@ -32,9 +33,9 @@ public class Competition {
     private Double amount;
 
     @CreatedDate
-    private Long createdDate;
+    private LocalDateTime createdDate;
     @LastModifiedDate
-    private Long modifiedDate;
+    private LocalDateTime modifiedDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "competition")
     @JsonManagedReference

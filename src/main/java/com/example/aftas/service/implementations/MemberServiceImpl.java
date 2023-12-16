@@ -8,8 +8,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -21,15 +24,15 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Member createMember(Member member) {
-        return memberRepository.save(member);
-    }
+        Optional<Member> memberFound = memberRepository.findMemberByIdentityNumber(member.getIdentityNumber());
 
-    @Override
-    public String generateMemberNumber(Member member) {
-        String generatedString = member.getFirstName().substring(0,2) + "-" +
-                        member.getLastName().substring(0,2) + "-" +
-                        UUID.randomUUID().toString().replace("-","").substring(0,4);
-        return generatedString;
+        if(memberFound.isPresent()){
+            throw new IllegalArgumentException("Member with the identity number {" + member.getIdentityNumber() + "} already exists");
+        }
+
+        member.setAccessionDate(LocalDate.now());
+
+        return memberRepository.save(member);
     }
 
     @Override

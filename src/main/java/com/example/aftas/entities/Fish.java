@@ -21,6 +21,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @EntityListeners({AuditingEntityListener.class})
@@ -36,9 +37,9 @@ public class Fish {
     private Level level;
 
     @CreatedDate
-    private Long createdDate;
+    private LocalDateTime createdDate;
     @LastModifiedDate
-    private Long modifiedDate;
+    private LocalDateTime modifiedDate;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "fish")
     private List<Hunting> huntingList;
