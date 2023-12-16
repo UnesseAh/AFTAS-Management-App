@@ -3,17 +3,20 @@ package com.example.aftas.controller;
 import com.example.aftas.controller.vm.*;
 import com.example.aftas.controller.vm.Competition.CompetitionRequestVM;
 import com.example.aftas.controller.vm.Competition.CompetitionResponseVM;
+import com.example.aftas.controller.vm.Ranking.MemberToCompetitionRequestVM;
+import com.example.aftas.controller.vm.Ranking.MemberToCompetitionResponseVM;
 import com.example.aftas.entities.Competition;
 import com.example.aftas.entities.Ranking;
+import com.example.aftas.handler.exception.ResourceNotFoundException;
 import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.CompetitionService;
 import jakarta.validation.Valid;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/competitions")
@@ -26,18 +29,15 @@ public class CompetitionController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCompetition(
-            @RequestBody @Valid
-            CompetitionRequestVM competitionRequestVM
-    ){
+    public ResponseEntity<?> createCompetition(@RequestBody @Valid CompetitionRequestVM competitionRequestVM){
         Competition competition = competitionService.createCompetition(competitionRequestVM.toCompetition());
         return GenericResponse.created(
                 CompetitionResponseVM.fromCompetition(competition),
                 "Competition created successfully");
     }
 
-    @PostMapping("/assign-member-in-competition")
-    public ResponseEntity registerMemberInACompetition(@RequestBody MemberToCompetitionRequestVM memberToCompetitionRequestVM){
+    @PostMapping("/register-in-competition")
+    public ResponseEntity registerMemberInCompetition(@RequestBody MemberToCompetitionRequestVM memberToCompetitionRequestVM){
         Long memberId = memberToCompetitionRequestVM.memberId();
         String competitionId = memberToCompetitionRequestVM.competitionCode();
         MemberToCompetitionResponseVM memberToCompetitionResponseVM = MemberToCompetitionResponseVM.fromRanking(competitionService.registerMemberInACompetition(memberId, competitionId));
@@ -56,8 +56,12 @@ public class CompetitionController {
     }
 
     @GetMapping("/{code}")
-    public ResponseEntity getCompetition(@PathVariable String code){
-        CompetitionResponseVM competitionResponseVM = CompetitionResponseVM.fromCompetition(competitionService.findCompetitionByCode(code));
+    public ResponseEntity<?> findCompetitionByCode(@PathVariable String code){
+        Optional<Competition> competition = competitionService.findCompetitionByCode(code);
+        if (competition.isEmpty()){
+            throw new ResourceNotFoundException("Competition with the code {" + code + "} doesn't exist");
+        }
+        CompetitionResponseVM competitionResponseVM = CompetitionResponseVM.fromCompetition(competition.get());
         return GenericResponse.ok(competitionResponseVM, "Competition is found");
     }
 

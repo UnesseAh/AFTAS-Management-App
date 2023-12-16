@@ -1,7 +1,5 @@
-package com.example.aftas.controller.vm;
+package com.example.aftas.controller.vm.Ranking;
 
-import com.example.aftas.entities.Competition;
-import com.example.aftas.entities.Member;
 import com.example.aftas.entities.Ranking;
 
 

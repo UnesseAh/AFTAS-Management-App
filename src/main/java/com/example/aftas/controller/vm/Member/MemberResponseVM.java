@@ -1,8 +1,6 @@
 package com.example.aftas.controller.vm.Member;
 
 import com.example.aftas.entities.Member;
-import com.example.aftas.entities.enums.Country;
-import com.example.aftas.entities.enums.IdentityDocumentType;
 
 import java.time.LocalDate;
 
@@ -12,9 +10,8 @@ public record MemberResponseVM(
         String LAST_NAME,
         LocalDate ACCESSION_DATE,
         String NATIONALITY,
-        IdentityDocumentType IDENTITY_DOCUMENT_TYPE,
+        String IDENTITY_DOCUMENT_TYPE,
         String IDENTITY_NUMBER
-//        List<Ranking> rankings
 ) {
     public static MemberResponseVM fromMember(Member member){
         return new MemberResponseVM(
@@ -23,9 +20,8 @@ public record MemberResponseVM(
                 member.getLastName(),
                 member.getAccessionDate(),
                 member.getNationality(),
-                member.getIdentityDocument(),
+                member.getIdentityDocument().toString(),
                 member.getIdentityNumber()
-//                member.getRankings()
         );
     }
 

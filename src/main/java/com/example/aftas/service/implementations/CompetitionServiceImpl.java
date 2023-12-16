@@ -11,8 +11,6 @@ import com.example.aftas.repository.RankingRepository;
 import com.example.aftas.service.interfaces.CompetitionService;
 import com.example.aftas.service.interfaces.MemberService;
 import com.example.aftas.service.interfaces.RankingService;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -47,7 +45,7 @@ public class CompetitionServiceImpl implements CompetitionService {
         if(competition.getEndTime().isBefore(competition.getStartTime())){
             errors.add("the competition's end time must come after the start time");
         }
-        if ( Duration.between(competition.getStartTime(), competition.getEndTime()).toHours() < 1 ){
+        if(Duration.between(competition.getStartTime(), competition.getEndTime()).toHours() < 1 ){
             errors.add("The competition must be at least 1 hour long");
         }
         if(competition.getDate().minus(Period.ofDays(2)).isBefore(LocalDate.now())){
@@ -68,19 +66,15 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public Competition findCompetitionByCode(String code) {
-        Optional<Competition> competition = competitionRepository.findCompetitionByCode(code);
-        if (competition.isEmpty()){
-            throw new ResourceNotFoundException("Competition with the code (" + code + ") doesn't exist");
-        }
-        return competition.get();
+    public Optional<Competition> findCompetitionByCode(String code) {
+        return competitionRepository.findCompetitionByCode(code);
     }
 
     @Override
     public Ranking registerMemberInACompetition(Long memberId, String competitionCode) {
 
         Member member = memberService.getMemberById(memberId);
-        Competition competition = findCompetitionByCode(competitionCode);
+        Competition competition = findCompetitionByCode(competitionCode).get();
 
         checkIfMemberAlreadyEnrolledInACompetition(member, competition);
 

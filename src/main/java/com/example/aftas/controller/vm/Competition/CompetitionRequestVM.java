@@ -33,6 +33,7 @@ public record CompetitionRequestVM(
                 .startTime(startTime)
                 .endTime(endTime)
                 .location(location)
+                .numberOfParticipants(numberOfParticipants)
                 .amount(amount)
                 .build();
     }
