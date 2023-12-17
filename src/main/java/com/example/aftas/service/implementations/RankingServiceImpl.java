@@ -33,12 +33,15 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     public Ranking registerMember(Ranking ranking) {
+
         Optional<Member> foundMember = memberService.getMemberById(ranking.getMember().getNumber());
         Optional<Competition> foundCompetition = competitionService.findByCode(ranking.getCompetition().getCode());
 
         checkMemberAndCompetitionExist(foundMember, foundCompetition, ranking);
 
         Member member = foundMember.get(); Competition competition = foundCompetition.get();
+
+        checkCompetitionIsAvailable(member, competition);
 
         checkIfMemberAlreadyEnrolledInACompetition(member, competition);
 
@@ -81,6 +84,13 @@ public class RankingServiceImpl implements RankingService {
 
         if(!errors.isEmpty()){
             throw new ValidationException(errors);
+        }
+    }
+
+    @Override
+    public void checkCompetitionIsAvailable(Member member, Competition competition) {
+        if(competitionService.getNumberOfCompetitionMembers(competition) >= competition.getNumberOfParticipants()){
+            throw new IllegalArgumentException("There is no place left in this competition");
         }
     }
 

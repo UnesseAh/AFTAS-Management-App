@@ -64,6 +64,11 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
+    public Integer getNumberOfCompetitionMembers(Competition competition) {
+        return competitionRepository.getNumberOfMembers(competition.getCode());
+    }
+
+    @Override
     public Competition updateCompetition(Long id, Competition competition) {
         return null;
     }

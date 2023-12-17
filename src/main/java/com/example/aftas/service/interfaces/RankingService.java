@@ -19,6 +19,7 @@ public interface RankingService {
     void checkCompetitionDateIsNotOver(Competition competition);
     void checkIfMemberAlreadyEnrolledInACompetition(Member member, Competition competition);
     void checkMemberAndCompetitionExist(Optional<Member> member, Optional<Competition> competition, Ranking ranking);
+    void checkCompetitionIsAvailable(Member member, Competition competition);
 
 
 }
