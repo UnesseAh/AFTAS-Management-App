@@ -89,9 +89,14 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     public void checkCompetitionIsAvailable(Member member, Competition competition) {
-        if(competitionService.getNumberOfCompetitionMembers(competition) >= competition.getNumberOfParticipants()){
+        if(getNumberOfCompetitionMembers(competition) >= competition.getNumberOfParticipants()){
             throw new IllegalArgumentException("There is no place left in this competition");
         }
+    }
+
+    @Override
+    public Integer getNumberOfCompetitionMembers(Competition competition) {
+        return rankingRepository.getNumberOfMembers(competition.getCode());
     }
 
     @Override

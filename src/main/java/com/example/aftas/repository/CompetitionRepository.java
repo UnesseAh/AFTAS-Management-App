@@ -15,6 +15,4 @@ public interface CompetitionRepository extends JpaRepository<Competition, Long> 
     Optional<Competition> findCompetitionByCode(String code);
     @Query("SELECT c FROM Competition c WHERE c.date = ?1")
     Optional<Competition> findCompetitionByDate(LocalDate date);
-    @Query("SELECT COUNT(*) FROM Competition c WHERE c.code = ?1")
-    Integer getNumberOfMembers(String code);
 }
