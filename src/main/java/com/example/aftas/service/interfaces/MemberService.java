@@ -10,7 +10,7 @@ import java.util.Optional;
 @Service
 public interface MemberService {
     Member createMember(Member member);
-    Member getMemberById(Long id);
+    Optional<Member> getMemberById(Long id);
     Member getMemberByNumber(Long number);
     List<Member> searchForMember(String searchKey);
     Page<Member> getAllMembers();

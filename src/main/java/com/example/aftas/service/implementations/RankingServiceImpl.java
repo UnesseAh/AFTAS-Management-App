@@ -4,6 +4,7 @@ import com.example.aftas.entities.Competition;
 import com.example.aftas.entities.Member;
 import com.example.aftas.entities.Ranking;
 import com.example.aftas.entities.embeddable.RankId;
+import com.example.aftas.handler.exception.ValidationException;
 import com.example.aftas.repository.RankingRepository;
 
 import com.example.aftas.service.interfaces.CompetitionService;
@@ -13,9 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.Period;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
@@ -33,49 +32,55 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
-    public void changeRankingScore(Competition competition, Member member, Integer fishScore) {
-        Ranking ranking = rankingRepository.findRankingByCompetitionAndMember(competition,member);
-        ranking.setScore(ranking.getScore() + fishScore);
-        rankingRepository.save(ranking);
-    }
-
-    @Override
-    public List<Ranking> getSortedRankingsByCompetition(Competition competition) {
-        return rankingRepository.findRankingsByCompetitionOrderByScoreDesc(competition);
-    }
-
-    @Override
     public Ranking registerMember(Ranking ranking) {
+        Optional<Member> foundMember = memberService.getMemberById(ranking.getMember().getNumber());
+        Optional<Competition> foundCompetition = competitionService.findByCode(ranking.getCompetition().getCode());
 
-        Member member = memberService.getMemberById(ranking.getMember().getNumber());
-        Competition competition = competitionService.findByCode(ranking.getCompetition().getCode()).get();
+        checkMemberAndCompetitionExist(foundMember, foundCompetition, ranking);
+
+        Member member = foundMember.get(); Competition competition = foundCompetition.get();
 
         checkIfMemberAlreadyEnrolledInACompetition(member, competition);
 
         checkCompetitionDateIsNotOver(competition);
 
-        String generatedNumber = member.getFirstName().substring(0,2) + "-" +
-                member.getLastName().substring(0,2) + "-" +
-                UUID.randomUUID().toString().replace("-","").substring(0,4);
-
         Ranking saveRanking = Ranking.builder()
                 .id(
                         RankId.builder()
-                                .competitionCode(competition.getCode())
-                                .memberNumber(member.getNumber()).build()
+                        .competitionCode(competition.getCode())
+                        .memberNumber(member.getNumber())
+                        .build()
                 )
                 .competition(competition)
                 .member(member)
                 .score(0)
-                .rank(0).build();
+                .rank(0)
+                .build();
+
         return rankingRepository.save(saveRanking);
     }
 
     @Override
     public void checkIfMemberAlreadyEnrolledInACompetition(Member member, Competition competition) {
-        Optional<Ranking> ranking = Optional.ofNullable(rankingRepository.findRankingByCompetitionAndMember(competition, member));
+        Optional<Ranking> ranking = rankingRepository.findRankingByCompetitionAndMember(competition.getCode(), member.getNumber());
         if (ranking.isPresent()){
             throw new IllegalArgumentException("This member is already registered in this competition");
+        }
+    }
+
+    @Override
+    public void checkMemberAndCompetitionExist(Optional<Member> foundMember, Optional<Competition> foundCompetition, Ranking ranking) {
+        List<String> errors = new ArrayList<>();
+
+        if(foundMember.isEmpty()){
+            errors.add("Member with number {" + ranking.getMember().getNumber() + "} doesn't exist");
+        }
+        if (foundCompetition.isEmpty()){
+            errors.add("Competition with code {" + ranking.getCompetition().getCode() + "} doesn't exist");
+        }
+
+        if(!errors.isEmpty()){
+            throw new ValidationException(errors);
         }
     }
 
@@ -83,7 +88,7 @@ public class RankingServiceImpl implements RankingService {
     public void checkCompetitionDateIsNotOver(Competition competition) {
         LocalDateTime dateTimeOfCompetition = LocalDateTime.of(competition.getDate(),competition.getStartTime());
         if (LocalDateTime.now().isAfter(dateTimeOfCompetition.minus(Period.ofDays(1)))) {
-            throw new IllegalArgumentException("You can only register in a competition before 24h of its start time");
+            throw new IllegalArgumentException("You can register in a competition only before 24h of its starting date");
         }
     }
 
@@ -102,4 +107,18 @@ public class RankingServiceImpl implements RankingService {
     public List<Ranking> showCompetitionPodium(String competitionCode) {
         return generateCompetitionRanks(competitionCode).stream().limit(3).toList();
     }
+
+    @Override
+    public void changeRankingScore(Competition competition, Member member, Integer fishScore) {
+        Optional<Ranking> ranking = rankingRepository.findRankingByCompetitionAndMember(competition.getCode(),member.getNumber());
+        ranking.get().setScore(ranking.get().getScore() + fishScore);
+        rankingRepository.save(ranking.get());
+    }
+
+    @Override
+    public List<Ranking> getSortedRankingsByCompetition(Competition competition) {
+        return rankingRepository.findRankingsByCompetitionOrderByScoreDesc(competition);
+    }
+
+
 }

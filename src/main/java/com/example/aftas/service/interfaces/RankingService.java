@@ -6,6 +6,7 @@ import com.example.aftas.entities.Ranking;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface RankingService {
@@ -17,6 +18,7 @@ public interface RankingService {
     List<Ranking> showCompetitionPodium(String competitionCode);
     void checkCompetitionDateIsNotOver(Competition competition);
     void checkIfMemberAlreadyEnrolledInACompetition(Member member, Competition competition);
+    void checkMemberAndCompetitionExist(Optional<Member> member, Optional<Competition> competition, Ranking ranking);
 
 
 }

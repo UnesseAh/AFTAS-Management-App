@@ -44,12 +44,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member getMemberById(Long id) {
-         Optional<Member> member = memberRepository.findById(id);
-         if (member.isEmpty()){
-             throw new ResourceNotFoundException("Member not found");
-         }
-         return member.get();
+    public Optional<Member> getMemberById(Long id) {
+         return memberRepository.findById(id);
     }
 
 
