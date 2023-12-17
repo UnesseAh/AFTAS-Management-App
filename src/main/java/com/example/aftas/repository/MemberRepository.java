@@ -13,7 +13,7 @@ import java.util.Optional;
 @Component
 public interface MemberRepository extends JpaRepository<Member, Long> {
     @Query("SELECT m FROM Member m WHERE m.number = ?1")
-    Member findMemberByNumber(Long number);
+    Optional<Member> findMemberByNumber(Long number);
 
     @Query(value = "SELECT * FROM members " +
             "WHERE members.first_name LIKE ?1 " +

@@ -2,7 +2,6 @@ package com.example.aftas.controller.vm.Ranking;
 
 import com.example.aftas.entities.Ranking;
 
-
 public record RegisterResponseVM(
         String member,
         String competition,

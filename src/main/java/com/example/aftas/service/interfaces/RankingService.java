@@ -20,5 +20,7 @@ public interface RankingService {
     void checkIfMemberAlreadyEnrolledInACompetition(Member member, Competition competition);
     void checkMemberAndCompetitionExist(Optional<Member> member, Optional<Competition> competition, Ranking ranking);
     void checkCompetitionIsAvailable(Member member, Competition competition);
+    Optional<Ranking> findRankingByMemberAndCompetition(Long member, String competition);
     Integer getNumberOfCompetitionMembers(Competition competition);
+
 }

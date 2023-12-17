@@ -65,7 +65,7 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     public void checkIfMemberAlreadyEnrolledInACompetition(Member member, Competition competition) {
-        Optional<Ranking> ranking = rankingRepository.findRankingByCompetitionAndMember(competition.getCode(), member.getNumber());
+        Optional<Ranking> ranking = rankingRepository.findRankingByCompetitionAndMember(member.getNumber(), competition.getCode());
         if (ranking.isPresent()){
             throw new IllegalArgumentException("This member is already registered in this competition");
         }
@@ -95,9 +95,16 @@ public class RankingServiceImpl implements RankingService {
     }
 
     @Override
+    public Optional<Ranking> findRankingByMemberAndCompetition(Long member, String competition) {
+        return rankingRepository.findRankingByCompetitionAndMember(member, competition);
+    }
+
+    @Override
     public Integer getNumberOfCompetitionMembers(Competition competition) {
         return rankingRepository.getNumberOfMembers(competition.getCode());
     }
+
+
 
     @Override
     public void checkCompetitionDateIsNotOver(Competition competition) {
@@ -125,7 +132,7 @@ public class RankingServiceImpl implements RankingService {
 
     @Override
     public void changeRankingScore(Competition competition, Member member, Integer fishScore) {
-        Optional<Ranking> ranking = rankingRepository.findRankingByCompetitionAndMember(competition.getCode(),member.getNumber());
+        Optional<Ranking> ranking = rankingRepository.findRankingByCompetitionAndMember(member.getNumber(), competition.getCode());
         ranking.get().setScore(ranking.get().getScore() + fishScore);
         rankingRepository.save(ranking.get());
     }

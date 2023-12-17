@@ -11,7 +11,7 @@ import java.util.Optional;
 public interface MemberService {
     Member createMember(Member member);
     Optional<Member> getMemberById(Long id);
-    Member getMemberByNumber(Long number);
+    Optional<Member> getMemberByNumber(Long number);
     List<Member> searchForMember(String searchKey);
     Page<Member> getAllMembers();
     Member updateMember(Long id, Member member);

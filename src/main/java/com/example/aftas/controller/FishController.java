@@ -1,6 +1,6 @@
 package com.example.aftas.controller;
 
-import com.example.aftas.DTO.FishDTO;
+import com.example.aftas.controller.vm.Fish.FishRequestVM;
 import com.example.aftas.controller.vm.Fish.FishResponseVM;
 import com.example.aftas.entities.Fish;
 import com.example.aftas.handler.response.GenericResponse;
@@ -25,8 +25,8 @@ public class FishController {
     }
 
     @PostMapping
-    public ResponseEntity createFish(@RequestBody @Valid FishDTO fishDTO){
-        Fish fish = fishService.createFish(fishDTO);
+    public ResponseEntity createFish(@RequestBody @Valid FishRequestVM fishRequestVM){
+        Fish fish = fishService.createFish(fishRequestVM);
         return GenericResponse.created(FishResponseVM.fromFish(fish), "Fish created successfully");
     }
 
@@ -40,10 +40,10 @@ public class FishController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateFish(@PathVariable("id") Long id, @RequestBody FishDTO fishDTO){
+    public ResponseEntity updateFish(@PathVariable("id") Long id, @RequestBody FishRequestVM fishRequestVM){
 
         return GenericResponse.ok(
-                FishResponseVM.fromFish(fishService.updateFish(id, fishDTO)),
+                FishResponseVM.fromFish(fishService.updateFish(id, fishRequestVM)),
                 "Level updated successfully") ;
     }
 

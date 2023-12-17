@@ -34,7 +34,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Member getMemberByNumber(Long number) {
+    public Optional<Member> getMemberByNumber(Long number) {
         return memberRepository.findMemberByNumber(number);
     }
 

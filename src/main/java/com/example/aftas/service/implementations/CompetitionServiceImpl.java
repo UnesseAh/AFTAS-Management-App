@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
 
@@ -26,22 +27,8 @@ public class CompetitionServiceImpl implements CompetitionService {
 
     @Override
     public Competition createCompetition(Competition competition) {
-        List<String> errors = new ArrayList<>();
-        if(competitionRepository.findCompetitionByDate(competition.getDate()).isPresent()){
-            errors.add("There is already a competition in the date (" + competition.getDate() + ")");
-        }
-        if(competition.getEndTime().isBefore(competition.getStartTime())){
-            errors.add("the competition's end time must come after the start time");
-        }
-        if(Duration.between(competition.getStartTime(), competition.getEndTime()).toHours() < 1 ){
-            errors.add("The competition must be at least 1 hour long");
-        }
-        if(competition.getDate().minus(Period.ofDays(2)).isBefore(LocalDate.now())){
-            errors.add("The competition must at least be in 2 days from now");
-        }
-        if(!errors.isEmpty()){
-            throw new ValidationException(errors);
-        }
+
+        validateCompetition(competition);
 
         String generatedCode = MessageFormat.format(
                 "{0}-{1}",
@@ -66,6 +53,26 @@ public class CompetitionServiceImpl implements CompetitionService {
     @Override
     public Competition updateCompetition(Long id, Competition competition) {
         return null;
+    }
+
+    @Override
+    public void validateCompetition(Competition competition) {
+        List<String> errors = new ArrayList<>();
+        if(competitionRepository.findCompetitionByDate(competition.getDate()).isPresent()){
+            errors.add("There is already a competition in the date (" + competition.getDate() + ")");
+        }
+        if(competition.getEndTime().isBefore(competition.getStartTime())){
+            errors.add("the competition's end time must come after the start time");
+        }
+        if(Duration.between(competition.getStartTime(), competition.getEndTime()).toHours() < 1 ){
+            errors.add("The competition must be at least 1 hour long");
+        }
+        if(competition.getDate().minus(Period.ofDays(2)).isBefore(LocalDate.now())){
+            errors.add("The competition must at least be in 2 days from now");
+        }
+        if(!errors.isEmpty()){
+            throw new ValidationException(errors);
+        }
     }
 
     @Override

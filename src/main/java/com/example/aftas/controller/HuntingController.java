@@ -1,7 +1,7 @@
 package com.example.aftas.controller;
 
-import com.example.aftas.DTO.HuntingDTO;
-import com.example.aftas.controller.vm.HuntingResponseVM;
+import com.example.aftas.controller.vm.Hunting.HuntingRequestVm;
+import com.example.aftas.controller.vm.Hunting.HuntingResponseVM;
 import com.example.aftas.entities.Hunting;
 import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.HuntingService;
@@ -22,9 +22,11 @@ public class HuntingController {
     }
 
     @PostMapping
-    public ResponseEntity createHunting(@RequestBody HuntingDTO huntingDTO){
-        Hunting hunting = huntingService.createHunting(huntingDTO);
-        HuntingResponseVM huntingResponseVM = HuntingResponseVM.fromHunting(hunting);
-        return GenericResponse.created(huntingResponseVM, "Hunting saved successfully");
+    public ResponseEntity<?> createHunting(@RequestBody HuntingRequestVm huntingRequestVm){
+        Hunting hunting = huntingRequestVm.toHunting();
+        Long weight = huntingRequestVm.weight();
+        Hunting hunt = huntingService.createHunting(hunting, weight);
+        HuntingResponseVM responseVM = HuntingResponseVM.fromHunting(hunt);
+        return GenericResponse.created(responseVM, "Hunting created successfully");
     }
 }
