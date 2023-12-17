@@ -33,7 +33,7 @@ public class HuntingServiceImpl implements HuntingService {
     @Override
     public Hunting createHunting(HuntingDTO huntingDTO) {
 
-        Competition competition = competitionService.findCompetitionByCode(huntingDTO.competitionCode()).get();
+        Competition competition = competitionService.findByCode(huntingDTO.competitionCode()).get();
 
         LocalDateTime endDateTimeOfCompetition = LocalDateTime.of(competition.getDate(), competition.getEndTime());
         if(LocalDateTime.now().isAfter(endDateTimeOfCompetition)){

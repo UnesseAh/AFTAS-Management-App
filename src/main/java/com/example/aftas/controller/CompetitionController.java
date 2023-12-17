@@ -1,12 +1,8 @@
 package com.example.aftas.controller;
 
-import com.example.aftas.controller.vm.*;
 import com.example.aftas.controller.vm.Competition.CompetitionRequestVM;
 import com.example.aftas.controller.vm.Competition.CompetitionResponseVM;
-import com.example.aftas.controller.vm.Ranking.MemberToCompetitionRequestVM;
-import com.example.aftas.controller.vm.Ranking.MemberToCompetitionResponseVM;
 import com.example.aftas.entities.Competition;
-import com.example.aftas.entities.Ranking;
 import com.example.aftas.handler.exception.ResourceNotFoundException;
 import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.CompetitionService;
@@ -36,14 +32,6 @@ public class CompetitionController {
                 "Competition created successfully");
     }
 
-    @PostMapping("/register-in-competition")
-    public ResponseEntity registerMemberInCompetition(@RequestBody MemberToCompetitionRequestVM memberToCompetitionRequestVM){
-        Long memberId = memberToCompetitionRequestVM.memberId();
-        String competitionId = memberToCompetitionRequestVM.competitionCode();
-        MemberToCompetitionResponseVM memberToCompetitionResponseVM = MemberToCompetitionResponseVM.fromRanking(competitionService.registerMemberInACompetition(memberId, competitionId));
-        return GenericResponse.created(memberToCompetitionResponseVM, "Member assigned successfully");
-    }
-
     @GetMapping
     public ResponseEntity getAllCompetitions(){
         List<Competition> competitionList = competitionService.getAllCompetitions();
@@ -57,27 +45,11 @@ public class CompetitionController {
 
     @GetMapping("/{code}")
     public ResponseEntity<?> findCompetitionByCode(@PathVariable String code){
-        Optional<Competition> competition = competitionService.findCompetitionByCode(code);
+        Optional<Competition> competition = competitionService.findByCode(code);
         if (competition.isEmpty()){
             throw new ResourceNotFoundException("Competition with the code {" + code + "} doesn't exist");
         }
         CompetitionResponseVM competitionResponseVM = CompetitionResponseVM.fromCompetition(competition.get());
         return GenericResponse.ok(competitionResponseVM, "Competition is found");
-    }
-
-    @PostMapping("/{competition}")
-    public ResponseEntity generateCompetitionRanking(@PathVariable("competition") String competition){
-        List<Ranking> generatedRankings = competitionService.generateCompetitionRanks(competition);
-        List<RankingsResponseVM> rankingsResponseVMS = new ArrayList<>();
-        generatedRankings.forEach(ranking -> rankingsResponseVMS.add(RankingsResponseVM.fromRanking(ranking)));
-        return GenericResponse.ok(rankingsResponseVMS, "Generated Rankings");
-    }
-
-    @PostMapping("/{competition}/podium")
-    public ResponseEntity showCompetitionPodium(@PathVariable("competition") String competition){
-        List<Ranking> generatedRankings = competitionService.showCompetitionPodium(competition);
-        List<RankingsResponseVM> rankingsResponseVMS = new ArrayList<>();
-        generatedRankings.forEach(ranking -> rankingsResponseVMS.add(RankingsResponseVM.fromRanking(ranking)));
-        return GenericResponse.ok(rankingsResponseVMS, "Generated Rankings");
     }
 }

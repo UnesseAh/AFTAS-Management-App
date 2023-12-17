@@ -12,5 +12,11 @@ public interface RankingService {
 
     void changeRankingScore(Competition competition, Member member, Integer fishScore);
     List<Ranking> getSortedRankingsByCompetition(Competition competition);
+    Ranking registerMember(Ranking ranking);
+    List<Ranking> generateCompetitionRanks(String competitionCode);
+    List<Ranking> showCompetitionPodium(String competitionCode);
+    void checkCompetitionDateIsNotOver(Competition competition);
+    void checkIfMemberAlreadyEnrolledInACompetition(Member member, Competition competition);
+
 
 }
