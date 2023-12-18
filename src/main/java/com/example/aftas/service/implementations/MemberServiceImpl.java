@@ -1,12 +1,12 @@
 package com.example.aftas.service.implementations;
 
 import com.example.aftas.entities.Member;
-import com.example.aftas.handler.exception.ResourceNotFoundException;
 import com.example.aftas.repository.MemberRepository;
 import com.example.aftas.service.interfaces.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 
@@ -51,7 +51,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public Page<Member> getAllMembers() {
-        return memberRepository.findAll(PageRequest.of(0,3));
+        return memberRepository.findAll(PageRequest.of(0,5));
     }
 
     @Override

@@ -48,7 +48,7 @@ public class FishServiceImpl implements FishService {
 
     @Override
     public Page<Fish> getAllFishes() {
-        return fishRepository.findAll(PageRequest.of(0,4));
+        return fishRepository.findAll(PageRequest.of(0,5));
     }
 
     @Override

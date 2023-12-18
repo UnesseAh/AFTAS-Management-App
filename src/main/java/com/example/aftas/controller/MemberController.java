@@ -7,6 +7,7 @@ import com.example.aftas.handler.exception.ResourceNotFoundException;
 import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.MemberService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,5 +40,16 @@ public class MemberController {
         membersList.forEach(member -> memberResponseVMS.add(MemberResponseVM.fromMember(member)));
 
         return GenericResponse.ok(memberResponseVMS,"Member was found");
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getAllMembers(){
+        Page<Member> memberList = memberService.getAllMembers();
+        if (memberList.isEmpty()) {
+            return GenericResponse.notFound("No members were found");
+        }
+        List<MemberResponseVM> result = new ArrayList<>();
+        memberList.forEach(member -> result.add(MemberResponseVM.fromMember(member)));
+        return GenericResponse.ok(result, "Members were retrieved successfully");
     }
 }

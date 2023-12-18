@@ -5,12 +5,13 @@ import com.example.aftas.handler.exception.ValidationException;
 import com.example.aftas.repository.CompetitionRepository;
 import com.example.aftas.service.interfaces.CompetitionService;
 import com.example.aftas.service.interfaces.MemberService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
 import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.Period;
 import java.util.*;
 
@@ -46,8 +47,8 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public List<Competition> getAllCompetitions() {
-        return competitionRepository.findAll();
+    public Page<Competition> getAllCompetitions() {
+        return competitionRepository.findAll(PageRequest.of(0,5));
     }
 
     @Override
