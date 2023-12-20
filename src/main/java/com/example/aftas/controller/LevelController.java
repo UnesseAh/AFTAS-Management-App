@@ -21,13 +21,13 @@ public class LevelController {
     }
 
     @PostMapping
-    public ResponseEntity createLevel(@RequestBody @Valid LevelRequestVM levelRequestVM){
+    public ResponseEntity<?> createLevel(@RequestBody @Valid LevelRequestVM levelRequestVM){
         Level level = levelService.createLevel(levelRequestVM.toLevel());
         return GenericResponse.created(LevelResponseVM.fromLevel(level), "Level created successfully");
     }
 
     @GetMapping
-    public ResponseEntity getAllLevels(){
+    public ResponseEntity<?> getAllLevels(){
         Page<Level> levels = levelService.getAllLevels();
         if (levels.isEmpty()){
             return GenericResponse.notFound("No levels were found");
@@ -36,7 +36,7 @@ public class LevelController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateLevel(@PathVariable("id") Long id, @RequestBody LevelRequestVM levelRequestVM){
+    public ResponseEntity<?> updateLevel(@PathVariable("id") Long id, @RequestBody LevelRequestVM levelRequestVM){
         Level level = levelRequestVM.toLevel();
         return GenericResponse.ok(
                 LevelResponseVM.fromLevel(levelService.updateLevel(id, level)),

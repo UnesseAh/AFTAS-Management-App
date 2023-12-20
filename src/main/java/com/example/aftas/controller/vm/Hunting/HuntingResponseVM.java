@@ -5,21 +5,21 @@ import lombok.Builder;
 
 @Builder
 public record HuntingResponseVM(
-        Integer HUNT_SCORE,
-        Integer NUMBER_OF_FISH,
-        String FISH_NAME,
-        String MEMBER_NAME,
-        Long MEMBER_NUMBER,
-        String COMPETITION
+        Long memberNumber,
+        String memberName,
+        String competition,
+        String fishName,
+        Integer huntScore,
+        Integer numberOfFish
 ) {
     public static HuntingResponseVM fromHunting(Hunting hunting){
         return HuntingResponseVM.builder()
-                .HUNT_SCORE(hunting.getFish().getLevel().getPoints())
-                .NUMBER_OF_FISH(hunting.getNumberOfFish())
-                .FISH_NAME(hunting.getFish().getName())
-                .MEMBER_NAME(hunting.getMember().getFirstName() + " " + hunting.getMember().getLastName())
-                .MEMBER_NUMBER(hunting.getMember().getNumber())
-                .COMPETITION(hunting.getCompetition().getCode())
+                .huntScore(hunting.getFish().getLevel().getPoints())
+                .numberOfFish(hunting.getNumberOfFish())
+                .fishName(hunting.getFish().getName())
+                .memberName(hunting.getMember().getFirstName() + " " + hunting.getMember().getLastName())
+                .memberNumber(hunting.getMember().getNumber())
+                .competition(hunting.getCompetition().getCode())
                 .build();
     }
 }

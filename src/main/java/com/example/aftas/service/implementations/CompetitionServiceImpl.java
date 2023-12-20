@@ -65,8 +65,8 @@ public class CompetitionServiceImpl implements CompetitionService {
         if(competition.getEndTime().isBefore(competition.getStartTime())){
             errors.add("the competition's end time must come after the start time");
         }
-        if(Duration.between(competition.getStartTime(), competition.getEndTime()).toHours() < 1 ){
-            errors.add("The competition must be at least 1 hour long");
+        if(Duration.between(competition.getStartTime(), competition.getEndTime()).toHours() < 2 ){
+            errors.add("The competition must be at least 2 hours long");
         }
         if(competition.getDate().minus(Period.ofDays(2)).isBefore(LocalDate.now())){
             errors.add("The competition must at least be in 2 days from now");

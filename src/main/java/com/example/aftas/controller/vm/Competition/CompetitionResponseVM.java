@@ -6,13 +6,13 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 public record CompetitionResponseVM(
-        String CODE,
-        LocalDate DATE,
-        LocalTime START_TIME,
-        LocalTime END_TIME,
-        Integer NUMBER_OF_PARTICIPANTS,
-        String LOCATION,
-        Double AMOUNT
+        String code,
+        LocalDate date,
+        LocalTime startTime,
+        LocalTime endTime,
+        Integer numberOfParticipants,
+        String location,
+        Double amount
 ) {
     public static CompetitionResponseVM fromCompetition(Competition competition){
         return new CompetitionResponseVM(

@@ -21,15 +21,21 @@ public class LevelServiceImpl implements LevelService {
 
     @Override
     public Level createLevel(Level level) {
-        List<Level> levels = (List<Level>) getAllLevels();
-        levels.stream().forEach(lvl -> {
-            if (lvl.getCode() > level.getCode()){
-                if(lvl.getPoints() < level.getPoints()){
-                    throw new IllegalArgumentException("The points of this level should be less than " + lvl.getPoints());
-                };
-            };
-        });
+        Integer pointsOfSmallestLevel = levelRepository.getPointsOfSmallestLevel(level.getCode());
+        Integer pointsOfLargestLevel = levelRepository.getPointsOfLargestLevel(level.getCode());
+
+        if (pointsOfSmallestLevel == null) {
+            return levelRepository.save(level);
+        } else if(pointsOfLargestLevel == null){
+            if(level.getPoints() < pointsOfSmallestLevel){
+                throw new IllegalArgumentException("Your level's points should be larger than (" + pointsOfSmallestLevel +")");
+            }
+        }else if(level.getPoints() < pointsOfSmallestLevel || level.getPoints() > pointsOfLargestLevel){
+            throw new IllegalArgumentException("Your level's points should be between (" + pointsOfSmallestLevel + ") and (" + pointsOfLargestLevel + ")");
+        }
+
         return levelRepository.save(level);
+
     }
 
     @Override

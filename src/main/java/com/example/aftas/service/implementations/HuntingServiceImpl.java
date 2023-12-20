@@ -76,7 +76,7 @@ public class HuntingServiceImpl implements HuntingService {
         if(foundFish.isEmpty()){
             errors.add("Fish with name {" + hunting.getFish().getName() + "} doesn't exist");
         }else if (foundFish.get().getAverageWeight() > weight){
-            errors.add("Your fish's weight is less than the average weight");
+            errors.add("Your fish's weight is less than the average weight : {" + foundFish.get().getAverageWeight() + "}");
         }
         if (!errors.isEmpty()){
             throw new ValidationException(errors);

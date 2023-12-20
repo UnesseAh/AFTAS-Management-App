@@ -1,8 +1,8 @@
 package com.example.aftas.controller;
 
-import com.example.aftas.controller.vm.Ranking.RegisterResponseVM;
-import com.example.aftas.controller.vm.Ranking.RegisterRequestVM;
-import com.example.aftas.controller.vm.RankingsResponseVM;
+import com.example.aftas.controller.vm.Register.RegisterResponseVM;
+import com.example.aftas.controller.vm.Register.RegisterRequestVM;
+import com.example.aftas.controller.vm.Ranking.RankingsResponseVM;
 import com.example.aftas.entities.Ranking;
 import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.RankingService;

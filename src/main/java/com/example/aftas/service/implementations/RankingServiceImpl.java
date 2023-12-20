@@ -13,6 +13,7 @@ import com.example.aftas.service.interfaces.RankingService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.Period;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -105,7 +106,6 @@ public class RankingServiceImpl implements RankingService {
     }
 
 
-
     @Override
     public void checkCompetitionDateIsNotOver(Competition competition) {
         LocalDateTime dateTimeOfCompetition = LocalDateTime.of(competition.getDate(),competition.getStartTime());
@@ -117,6 +117,13 @@ public class RankingServiceImpl implements RankingService {
     @Override
     public List<Ranking> generateCompetitionRanks(String competitionCode) {
         Optional<Competition> competition = competitionService.findByCode(competitionCode);
+
+//        LocalDateTime competitionStartDateTime = LocalDateTime.of(competition.get().getDate(),competition.get().getStartTime());
+//        LocalDateTime competitionEndDateTime = LocalDateTime.of(competition.get().getDate(),competition.get().getEndTime());
+//
+//        if (LocalDateTime.now().isBefore(competitionStartDateTime) || competitionEndDateTime.isAfter(LocalDateTime.of(competition.get().getDate(),LocalTime.MIDNIGHT)) ){
+//            throw new IllegalArgumentException("You can't generate rankings for a competition outside it's creation date");
+//        }
         List<Ranking> sortedRankingsByCompetition = getSortedRankingsByCompetition(competition.get());
 
         AtomicInteger count = new AtomicInteger(0);
@@ -141,6 +148,4 @@ public class RankingServiceImpl implements RankingService {
     public List<Ranking> getSortedRankingsByCompetition(Competition competition) {
         return rankingRepository.findRankingsByCompetitionOrderByScoreDesc(competition);
     }
-
-
 }

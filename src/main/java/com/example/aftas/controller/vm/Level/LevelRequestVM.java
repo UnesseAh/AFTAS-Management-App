@@ -9,17 +9,15 @@ import lombok.Getter;
 
 public record LevelRequestVM(
         @NotNull(message = "Code can't be null")
-        @NotEmpty(message = "Code can't be empty")
         Integer code,
         @NotBlank(message = "Description can't be blank")
         @Size(min = 2, max = 255, message = "Description must be between 10 and 20 characters")
         String description,
         @NotNull(message = "Code can't be null")
-        @NotEmpty(message = "Code can't be empty")
         Integer points
 ) {
     public Level toLevel(){
-        return new Level().builder()
+        return  Level.builder()
                 .code(code)
                 .description(description)
                 .points(points)

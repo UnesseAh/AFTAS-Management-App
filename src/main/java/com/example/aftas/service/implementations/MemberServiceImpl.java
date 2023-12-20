@@ -48,10 +48,9 @@ public class MemberServiceImpl implements MemberService {
          return memberRepository.findById(id);
     }
 
-
     @Override
     public Page<Member> getAllMembers() {
-        return memberRepository.findAll(PageRequest.of(0,5));
+        return memberRepository.findAll(PageRequest.of(0,10));
     }
 
     @Override

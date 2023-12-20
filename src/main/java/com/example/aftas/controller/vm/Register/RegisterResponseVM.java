@@ -1,4 +1,4 @@
-package com.example.aftas.controller.vm.Ranking;
+package com.example.aftas.controller.vm.Register;
 
 import com.example.aftas.entities.Ranking;
 
