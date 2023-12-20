@@ -13,7 +13,6 @@ import com.example.aftas.service.interfaces.RankingService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.Period;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;

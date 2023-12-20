@@ -1,6 +1,5 @@
 package com.example.aftas.handler.exception;
 
-import java.util.HashMap;
 import java.util.List;
 
 public class ValidationException extends RuntimeException{

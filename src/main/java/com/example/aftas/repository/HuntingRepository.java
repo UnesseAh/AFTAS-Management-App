@@ -1,9 +1,6 @@
 package com.example.aftas.repository;
 
-import com.example.aftas.entities.Competition;
-import com.example.aftas.entities.Fish;
 import com.example.aftas.entities.Hunting;
-import com.example.aftas.entities.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
