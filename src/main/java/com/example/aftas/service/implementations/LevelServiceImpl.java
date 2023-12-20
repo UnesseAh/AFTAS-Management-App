@@ -26,11 +26,15 @@ public class LevelServiceImpl implements LevelService {
 
         if (pointsOfSmallestLevel == null) {
             return levelRepository.save(level);
-        } else if(pointsOfLargestLevel == null){
+        }
+
+        if(pointsOfLargestLevel == null){
             if(level.getPoints() < pointsOfSmallestLevel){
                 throw new IllegalArgumentException("Your level's points should be larger than (" + pointsOfSmallestLevel +")");
             }
-        }else if(level.getPoints() < pointsOfSmallestLevel || level.getPoints() > pointsOfLargestLevel){
+        }
+
+        if(level.getPoints() < pointsOfSmallestLevel || level.getPoints() > pointsOfLargestLevel){
             throw new IllegalArgumentException("Your level's points should be between (" + pointsOfSmallestLevel + ") and (" + pointsOfLargestLevel + ")");
         }
 
