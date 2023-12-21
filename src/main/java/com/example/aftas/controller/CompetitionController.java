@@ -8,6 +8,7 @@ import com.example.aftas.handler.response.GenericResponse;
 import com.example.aftas.service.interfaces.CompetitionService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,10 +34,21 @@ public class CompetitionController {
                 "Competition created successfully");
     }
 
+//    @GetMapping
+//    public ResponseEntity<?> getAllCompetitions(){
+//        Page<Competition> competitionList = competitionService.getAllCompetitions();
+//        if (competitionList.isEmpty()) {
+//            return GenericResponse.notFound("No competitions were found");
+//        }
+//        List<CompetitionResponseVM> competitionResponseVMS = new ArrayList<>();
+//        competitionList.forEach(competition -> competitionResponseVMS.add(CompetitionResponseVM.fromCompetition(competition)));
+//        return GenericResponse.ok(competitionResponseVMS, "Competitions returned successfully") ;
+//    }
+
     @GetMapping
-    public ResponseEntity<?> getAllCompetitions(){
-        Page<Competition> competitionList = competitionService.getAllCompetitions();
-        if (competitionList.isEmpty()){
+    public ResponseEntity<?> getAllCompetitions(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size){
+        Page<Competition> competitionList = competitionService.getAllCompetitions(PageRequest.of(page, size));
+        if (competitionList.isEmpty()) {
             return GenericResponse.notFound("No competitions were found");
         }
         List<CompetitionResponseVM> competitionResponseVMS = new ArrayList<>();

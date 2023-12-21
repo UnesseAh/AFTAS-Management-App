@@ -7,6 +7,7 @@ import com.example.aftas.service.interfaces.CompetitionService;
 import com.example.aftas.service.interfaces.MemberService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.text.MessageFormat;
@@ -47,8 +48,8 @@ public class CompetitionServiceImpl implements CompetitionService {
     }
 
     @Override
-    public Page<Competition> getAllCompetitions() {
-        return competitionRepository.findAll(PageRequest.of(0,5));
+    public Page<Competition> getAllCompetitions(Pageable pageable) {
+        return competitionRepository.findAll(pageable);
     }
 
     @Override

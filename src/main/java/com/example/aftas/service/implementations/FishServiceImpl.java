@@ -48,13 +48,12 @@ public class FishServiceImpl implements FishService {
 
     @Override
     public Page<Fish> getAllFishes() {
-        return fishRepository.findAll(PageRequest.of(0,5));
+        return fishRepository.findAll(PageRequest.of(0, 5));
     }
 
     @Override
     public Optional<Fish> findFishById(Long id) {
-        Optional<Fish> fish = fishRepository.findById(id);
-        return fish;
+        return fishRepository.findById(id);
     }
 
     @Override
